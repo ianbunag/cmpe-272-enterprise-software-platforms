@@ -85,9 +85,10 @@ jobs:
           username: ${{ secrets.VM_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # Move uploaded files to central directory
-            # (Directory setup, Docker Compose installation, and permissions are handled in Phase 2)
+            # Create app directory if missing
             mkdir -p /var/lib/app
+            
+            # Move uploaded files to central directory
             mv /tmp/app/docker-compose*.yml /var/lib/app/
 
             cd /var/lib/app

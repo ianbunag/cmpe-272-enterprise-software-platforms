@@ -45,15 +45,31 @@ sudo chmod 2775 /var/lib/app
 # Create the wrapper script
 cat > /var/lib/app/docker-compose << 'EOF'
 #!/bin/bash
+# Wrapper to run docker-compose in a container
+# Inherits all shell environment variables and the .env file
+
+# 1. Load the .env file if it exists
+ENV_FILE="/var/lib/app/.env"
+ENV_OPTS=""
+if [ -f "$ENV_FILE" ]; then
+  ENV_OPTS="--env-file $ENV_FILE"
+fi
+
+# 2. Inherit all current shell variables
+# This generates a list of -e VAR1 -e VAR2 for every variable in the shell
+INHERIT_VARS=$(env | cut -d= -f1 | sed 's/^/-e /' | tr '\n' ' ')
+
 docker run --rm \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /var/lib/app:/var/lib/app \
   -v "$PWD":"$PWD" \
   -w "$PWD" \
+  $ENV_OPTS \
+  $INHERIT_VARS \
   docker/compose:alpine-1.29.2 "$@"
 EOF
 
-# Make it executable (Bash scripts are permitted to run even when binaries are not)
+# Make it executable
 chmod +x /var/lib/app/docker-compose
 ```
 
