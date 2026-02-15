@@ -131,20 +131,47 @@ Once the GitHub Action completes, your site will be live at your domain.
 
 ---
 
+## Phase 5: Manual Operations and Troubleshooting
+
+After the automated deployment is set up, you may occasionally need to perform manual operations on the server.
+
+### 1. Manual Image Pull (Manual Deploy Update)
+If you want to manually pull the latest images defined in your `docker-compose.yml` on the server:
+```bash
+cd /var/lib/app
+# You must source your environment or export required variables for the wrapper
+IMAGE_TAG=latest bash /var/lib/app/docker-compose pull
+```
+
+### 2. Restarting Services
+To restart your containers manually:
+```bash
+cd /var/lib/app
+IMAGE_TAG=latest bash /var/lib/app/docker-compose up -d
+```
+
+### 3. Viewing Logs
+To see real-time logs from your application:
+```bash
+cd /var/lib/app
+bash /var/lib/app/docker-compose logs -f
+```
+
+---
+
 ## General Technical Details
 
 ### Local Development vs Production
 
 | Environment | Command | Behavior |
 |-------------|---------|----------|
-| Development | `docker compose up -d` | Extends base, builds locally, mounts volumes |
-| Production | `bash /var/lib/app/docker-compose up -d` | Extends base, pulls pre-built images from GHCR |
+| Development | `docker compose up -d` | Standalone, builds locally, mounts volumes |
+| Production | `bash /var/lib/app/docker-compose up -d` | Standalone, pulls pre-built images from GHCR |
 
 ### Infrastructure (Docker Compose)
-The project uses three Compose files for configuration management:
-1. `docker-compose-base.yml`: Contains core service definitions shared across environments.
-2. `docker-compose.yml`: Development-specific configuration (builds, volumes).
-3. `docker-compose-prod.yml`: Production-specific configuration (deployed as `docker-compose.yml` on the server).
+The project uses two independent Compose files:
+1. `docker-compose.yml`: Development-specific configuration (builds, volumes).
+2. `docker-compose-prod.yml`: Production-specific configuration (copied as `docker-compose.yml` on the server).
 
 ### Environment Variables
 Environment variables are defined in the `.env` file in the app directory.

@@ -75,7 +75,7 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "docker-compose-base.yml,docker-compose-prod.yml"
+          source: "docker-compose-prod.yml"
           target: "/tmp/app"
 
       - name: Deploy to GCP VM
@@ -88,9 +88,7 @@ jobs:
             # Create app directory if missing
             mkdir -p /var/lib/app
             
-            # Move uploaded files to central directory
-            # Base file stays as is, Prod file is renamed to docker-compose.yml for default usage
-            mv /tmp/app/docker-compose-base.yml /var/lib/app/
+            # Move uploaded file to central directory and rename to docker-compose.yml
             mv /tmp/app/docker-compose-prod.yml /var/lib/app/docker-compose.yml
 
             cd /var/lib/app

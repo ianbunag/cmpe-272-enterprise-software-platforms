@@ -2,14 +2,31 @@ version: '3.8'
 
 services:
   mariadb:
-    extends:
-      file: docker-compose-base.yml
-      service: mariadb
+    image: mariadb
+    container_name: mariadb
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=cmpe-272
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    command: --innodb-buffer-pool-size=128M
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   nginx:
-    extends:
-      file: docker-compose-base.yml
-      service: nginx-base
+    image: nginx-dev
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
     build:
       context: .
       dockerfile: nginx/Dockerfile
@@ -17,11 +34,19 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./public:/var/www/html/public:ro
+    depends_on:
+      - php-fpm
 
   php-fpm:
-    extends:
-      file: docker-compose-base.yml
-      service: php-fpm-base
+    image: php-fpm-dev
+    container_name: php-fpm
+    restart: unless-stopped
+    environment:
+      - DB_HOST=mariadb
+      - DB_NAME=cmpe-272
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REPO_URL=${REPO_URL}
     build:
       context: .
       dockerfile: php/Dockerfile
@@ -29,6 +54,9 @@ services:
     volumes:
       - ./:/var/www/html
       - ./php/custom.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+    depends_on:
+      mariadb:
+        condition: service_healthy
 
 volumes:
   db_data:
