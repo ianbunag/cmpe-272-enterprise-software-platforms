@@ -2,25 +2,31 @@ FROM php:8.3-fpm-alpine AS base
 
 # Install system dependencies
 RUN apk add --no-cache \
-    composer \
-    mysql-client
+    mysql-client \
+    git \
+    unzip \
+    zip \
+    libzip-dev
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql zip
+
+# Get official Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Development stage - code mounted via volumes
+# Development stage
 FROM base AS development
 
-# Production stage - code baked into image
+# Production stage
 FROM base AS production
 
 # Copy composer files first for layer caching
-COPY composer.json composer.lock ./
+COPY composer.json composer.lock* ./
 
 # Install dependencies
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction
 
 # Copy application code
 COPY public ./public
