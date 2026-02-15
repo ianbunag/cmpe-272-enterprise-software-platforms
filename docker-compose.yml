@@ -1,7 +1,11 @@
 version: '3.8'
 services:
   nginx:
-    image: nginx:alpine
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+      target: ${BUILD_TARGET:-development}
+    image: ${IMAGE_REGISTRY:-local}/nginx:${IMAGE_TAG:-latest}
     container_name: nginx
     restart: unless-stopped
     ports:
@@ -14,8 +18,10 @@ services:
 
   php-fpm:
     build:
-      context: ./php
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: php/Dockerfile
+      target: ${BUILD_TARGET:-development}
+    image: ${IMAGE_REGISTRY:-local}/php-fpm:${IMAGE_TAG:-latest}
     container_name: php-fpm
     restart: unless-stopped
     volumes:
