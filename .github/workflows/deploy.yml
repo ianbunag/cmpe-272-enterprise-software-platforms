@@ -86,12 +86,14 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             # Move uploaded files to central directory
-            # (Directory setup and permissions are handled in GCP VM Initial Setup)
+            # (Directory setup, Docker Compose installation, and permissions are handled in Phase 2)
             mkdir -p /var/lib/app
             mv /tmp/app/docker-compose*.yml /var/lib/app/
+
             cd /var/lib/app
 
-            # Login to GHCR
+            # Login to GHCR (using the installed docker-compose path if needed, 
+            # though standard docker login works without it)
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
             # Set environment variables
@@ -102,12 +104,12 @@ jobs:
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export REPO_URL=https://github.com/${{ github.repository }}
 
-            # Pull and restart
-            docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
-            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+            # Pull and restart using the custom Docker Compose path
+            bash /var/lib/app/docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
+            bash /var/lib/app/docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
             # Run migrations
-            docker compose exec -T php-fpm vendor/bin/phinx migrate
+            bash /var/lib/app/docker-compose exec -T php-fpm vendor/bin/phinx migrate
 
             # Cleanup
             docker image prune -f

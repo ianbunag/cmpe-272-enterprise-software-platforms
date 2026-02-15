@@ -34,14 +34,28 @@ This guide will walk you through setting up your hosting and web programming env
 
 SSH into your VM via the GCP Console or your local terminal to prepare the environment.
 
-### 1. Create the App Directory
-The application is deployed to a central directory for group access.
+### 1. Create the App Directory and Docker Compose Wrapper
+The application files reside in `/var/lib/app`. Since COS may prevent binary execution on writable partitions, we use a wrapper script that runs Docker Compose inside a container.
+
 ```bash
 sudo mkdir -p /var/lib/app
 sudo chown $USER:docker /var/lib/app
 sudo chmod 2775 /var/lib/app
+
+# Create the wrapper script
+cat > /var/lib/app/docker-compose << 'EOF'
+#!/bin/bash
+docker run --rm \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /var/lib/app:/var/lib/app \
+  -v "$PWD":"$PWD" \
+  -w "$PWD" \
+  docker/compose:alpine-1.29.2 "$@"
+EOF
+
+# Make it executable (Bash scripts are permitted to run even when binaries are not)
+chmod +x /var/lib/app/docker-compose
 ```
-*Note: The `2` in `2775` is the setgid bit, ensuring new files inherit the `docker` group.*
 
 ### 2. Create the Production Environment File
 ```bash
@@ -103,16 +117,20 @@ Once the GitHub Action completes, your site will be live at your domain.
 
 ## General Technical Details
 
-### Local Development
-To run the environment locally:
-```bash
-docker compose up -d
-```
+### Local Development vs Production
+
+| Environment | Command | Behavior |
+|-------------|---------|----------|
+| Development | `docker compose up -d` | Code mounted via volumes, live reload |
+| Production | `bash /var/lib/app/docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d` | Runs Docker Compose via container |
+
+### Environment Variables
+Environment variables are defined in the `.env` file in the app directory.
 
 ### Migrations (Phinx)
-Migrations are run automatically on deployment. To run them manually inside the container:
+Migrations are run automatically on deployment. To run them manually inside the container on the server:
 ```bash
-docker compose exec php-fpm vendor/bin/phinx migrate
+bash /var/lib/app/docker-compose exec php-fpm vendor/bin/phinx migrate
 ```
 
 ### Frontend
