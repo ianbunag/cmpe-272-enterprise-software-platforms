@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  mariadb:
+    extends:
+      file: docker-compose-base.yml
+      service: mariadb
+
+  nginx:
+    extends:
+      file: docker-compose-base.yml
+      service: nginx-base
+
+  php-fpm:
+    extends:
+      file: docker-compose-base.yml
+      service: php-fpm-base
+
+volumes:
+  db_data:
+

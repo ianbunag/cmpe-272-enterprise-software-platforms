@@ -137,8 +137,14 @@ Once the GitHub Action completes, your site will be live at your domain.
 
 | Environment | Command | Behavior |
 |-------------|---------|----------|
-| Development | `docker compose up -d` | Code mounted via volumes, live reload |
-| Production | `bash /var/lib/app/docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d` | Runs Docker Compose via container |
+| Development | `docker compose up -d` | Extends base, builds locally, mounts volumes |
+| Production | `bash /var/lib/app/docker-compose up -d` | Extends base, pulls pre-built images from GHCR |
+
+### Infrastructure (Docker Compose)
+The project uses three Compose files for configuration management:
+1. `docker-compose-base.yml`: Contains core service definitions shared across environments.
+2. `docker-compose.yml`: Development-specific configuration (builds, volumes).
+3. `docker-compose-prod.yml`: Production-specific configuration (deployed as `docker-compose.yml` on the server).
 
 ### Environment Variables
 Environment variables are defined in the `.env` file in the app directory.

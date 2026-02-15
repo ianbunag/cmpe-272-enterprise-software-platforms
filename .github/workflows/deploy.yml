@@ -75,7 +75,7 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "docker-compose.yml,docker-compose.prod.yml"
+          source: "docker-compose-base.yml,docker-compose-prod.yml"
           target: "/tmp/app"
 
       - name: Deploy to GCP VM
@@ -89,7 +89,9 @@ jobs:
             mkdir -p /var/lib/app
             
             # Move uploaded files to central directory
-            mv /tmp/app/docker-compose*.yml /var/lib/app/
+            # Base file stays as is, Prod file is renamed to docker-compose.yml for default usage
+            mv /tmp/app/docker-compose-base.yml /var/lib/app/
+            mv /tmp/app/docker-compose-prod.yml /var/lib/app/docker-compose.yml
 
             cd /var/lib/app
 
@@ -105,9 +107,9 @@ jobs:
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export REPO_URL=https://github.com/${{ github.repository }}
 
-            # Pull and restart using the custom Docker Compose path
-            bash /var/lib/app/docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
-            bash /var/lib/app/docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+            # Pull and restart
+            bash /var/lib/app/docker-compose pull
+            bash /var/lib/app/docker-compose up -d
 
             # Run migrations
             bash /var/lib/app/docker-compose exec -T php-fpm vendor/bin/phinx migrate
