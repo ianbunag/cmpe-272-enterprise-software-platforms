@@ -69,6 +69,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Copy docker-compose files to VM
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "docker-compose.yml,docker-compose.prod.yml"
+          target: "/tmp/app"
+
       - name: Deploy to GCP VM
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -76,7 +85,11 @@ jobs:
           username: ${{ secrets.VM_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ~/app
+            # Move uploaded files to central directory
+            # (Directory setup and permissions are handled in GCP VM Initial Setup)
+            mkdir -p /var/lib/app
+            mv /tmp/app/docker-compose*.yml /var/lib/app/
+            cd /var/lib/app
 
             # Login to GHCR
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
@@ -89,15 +102,12 @@ jobs:
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export REPO_URL=https://github.com/${{ github.repository }}
 
-            # Pull latest images
+            # Pull and restart
             docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
-
-            # Restart services
             docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
             # Run migrations
             docker compose exec -T php-fpm vendor/bin/phinx migrate
 
-            # Cleanup old images
+            # Cleanup
             docker image prune -f
-

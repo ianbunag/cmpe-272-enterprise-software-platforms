@@ -1,60 +1,122 @@
-# CMPE-272 Enterprise Software Platforms
+# Setup Guide: CMPE-272 Enterprise Software Platforms
 
-## Manual Prerequisites
+This guide will walk you through setting up your hosting and web programming environment from scratch. Following these steps in order will result in a fully functional, publicly accessible application with automated CI/CD.
+
+## Phase 1: Infrastructure (Manual GCP Setup)
 
 ### 1. GCP VM Setup
 - Create a new VM instance in Google Cloud Platform:
-  - Machine type: e2-micro (1 vCPU, 1GB RAM)
-  - Region: us-west1
-  - Image: Container Optimized OS (COS)
+  - Machine type: `e2-micro` (1 vCPU, 1GB RAM)
+  - Region: `us-west1`
+  - Image: **Container-Optimized OS (COS)**
 
 ### 2. Static External IP
-- Go to VPC Network > IP addresses.
-- Find the ephemeral external IP assigned to your VM.
-- Click "Promote to static" to reserve it as a static IP.
+- Navigate to **VPC Network > IP addresses**.
+- Locate the ephemeral external IP assigned to your VM.
+- Click **Promote to static** to reserve it. Note this IP; it will be your `VM_HOST`.
 
 ### 3. Firewall Rules
 - Edit your VM instance.
-- Check both "Allow HTTP traffic" and "Allow HTTPS traffic".
-- This will assign the `http-server` and `https-server` network tags.
+- Check both **Allow HTTP traffic** and **Allow HTTPS traffic**.
+- This assigns the `http-server` and `https-server` network tags.
 
 ### 4. Cloudflare DNS & SSL
-- In your Cloudflare dashboard, add an A record pointing your domain to the static external IP.
-- Enable the Cloudflare proxy (orange cloud ON).
-- Set SSL/TLS mode to "Full (Strict)".
+- In your Cloudflare dashboard, add an **A record** pointing your domain to the `VM_HOST` IP.
+- Enable the Cloudflare proxy (orange cloud **ON**).
+- Set SSL/TLS mode to **Full (Strict)**.
 
 ### 5. GCP Budget Alert
-- In the GCP Billing dashboard, create a budget alert for $1.00 to monitor costs.
+- In the GCP Billing dashboard, create a budget alert for **$1.00** to monitor costs.
 
 ---
 
-## Lightweight Migrations (Phinx)
+## Phase 2: Server Configuration (One-Time Setup)
 
-Phinx is set up as a stand-alone migration tool via Composer. The configuration file (`phinx.php`) uses environment variables for database connection details.
+SSH into your VM via the GCP Console or your local terminal to prepare the environment.
 
-### Install Phinx
-
-Phinx is a production dependency (required for running migrations on deploy). Run:
+### 1. Create the App Directory
+The application is deployed to a central directory for group access.
+```bash
+sudo mkdir -p /var/lib/app
+sudo chown $USER:docker /var/lib/app
+sudo chmod 2775 /var/lib/app
 ```
-composer install
+*Note: The `2` in `2775` is the setgid bit, ensuring new files inherit the `docker` group.*
+
+### 2. Create the Production Environment File
+```bash
+cat > /var/lib/app/.env << EOF
+DB_USER=your_db_user
+DB_PASSWORD=your_secure_password
+REPO_URL=https://github.com/your-username/your-repo
+EOF
+chmod 660 /var/lib/app/.env
 ```
 
-### Configuration
-
-See `phinx.php` for environment-based DB settings.
-
-### Running Migrations
-
-To run migrations inside the PHP container:
+### 3. Configure Deployment User
+Ensure the user used for SSH deployment is in the `docker` group. Replace `VM_USERNAME` with your intended deployment username.
+```bash
+sudo usermod -aG docker VM_USERNAME
 ```
+*IMPORTANT: You must restart your SSH session or log out/in for this to take effect.*
+
+---
+
+## Phase 3: CI/CD Integration (GitHub Setup)
+
+### 1. Generate SSH Keys
+On your local machine, generate a key pair for the GitHub Actions runner.
+```bash
+ssh-keygen -t ed25519 -f ./DEPLOY_KEY -C "VM_USERNAME"
+```
+1. **Public Key**: Add the content of `DEPLOY_KEY.pub` to **GCP Console > Compute Engine > Metadata > SSH Keys**.
+2. **Private Key**: Copy the content of `DEPLOY_KEY` for the GitHub Secret below.
+
+### 2. Add GitHub Secrets
+In your repository, go to **Settings > Secrets and variables > Actions** and add:
+
+| Secret | Value |
+|--------|-------|
+| `VM_HOST` | The Static IP from Phase 1 |
+| `VM_USERNAME` | The username from Phase 2, Step 3 |
+| `SSH_PRIVATE_KEY` | The private key from Phase 3, Step 1 |
+| `DB_USER` | The same `DB_USER` used in Phase 2, Step 2 |
+| `DB_PASSWORD` | The same `DB_PASSWORD` used in Phase 2, Step 2 |
+
+---
+
+## Phase 4: Deploying a Version
+
+Pushing a Git tag triggers the build and deployment.
+
+```bash
+# Tag the current commit
+git tag 1.0.0
+
+# Push the tag to GitHub
+git push origin 1.0.0
+```
+
+Once the GitHub Action completes, your site will be live at your domain.
+
+---
+
+## General Technical Details
+
+### Local Development
+To run the environment locally:
+```bash
+docker compose up -d
+```
+
+### Migrations (Phinx)
+Migrations are run automatically on deployment. To run them manually inside the container:
+```bash
 docker compose exec php-fpm vendor/bin/phinx migrate
 ```
 
----
-
-## Frontend
-
-The landing page uses **Pico.css**, a classless CSS framework loaded from CDN:
+### Frontend
+The landing page uses **Pico.css** via CDN for a classless, semantic, and responsive UI.
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
@@ -70,110 +132,3 @@ The landing page uses **Pico.css**, a classless CSS framework loaded from CDN:
 - Use semantic HTML elements (`<article>`, `<header>`, `<footer>`, `<table>`, `<mark>`)
 - No class names needed for basic styling
 - See `public/index.php` for example
-
----
-
-## CI/CD Pipeline
-
-The project uses GitHub Actions for automated builds and deployments. The workflow triggers on Git tags.
-
-### How It Works
-
-1. **Trigger**: Push any tag (e.g., `1.0.0`). The workflow is configured to only execute the build and deploy jobs when a tag is pushed.
-2. **Build**: Creates production Docker images with code baked in
-3. **Push**: Uploads images to GitHub Container Registry (GHCR)
-4. **Deploy**: SSHs into GCP VM, pulls images, restarts services
-5. **Migrate**: Automatically runs Phinx migrations
-
-### Required GitHub Secrets
-
-Add these secrets in your repository settings (Settings > Secrets and variables > Actions):
-
-| Secret | Description |
-|--------|-------------|
-| `VM_HOST` | GCP VM static external IP address |
-| `VM_USERNAME` | SSH username (usually your GCP username) |
-| `SSH_PRIVATE_KEY` | Private SSH key for VM access |
-| `DB_USER` | Database username |
-| `DB_PASSWORD` | Database password |
-
-> Note: `GITHUB_TOKEN` is automatically provided by GitHub Actions.
-
-### Quick Guide: Obtaining Credentials
-
-#### 1. How to get `VM_USERNAME`
-The username is typically your GCP account name (before the `@gmail.com`). However, **you can use any username you want** as long as it matches the prefix you use when adding the SSH key to GCP metadata.
-
-To verify your current username:
-- SSH into the VM via the GCP Console.
-- Running the command: `whoami`
-
-#### 2. How to get `SSH_PRIVATE_KEY`
-You need to generate an SSH key pair and add the public key to GCP.
-
-**On your local machine:**
-1. Generate a key pair:
-   ```bash
-   ssh-keygen -t ed25519 -f ./github-actions-deploy-key -C "github-actions-deploy"
-   ```
-> The `-C` (comment) parameter is the username that will be associated with the public key.
-2. Get the **Public Key** content:
-   ```bash
-   cat ./github-actions-deploy-key.pub
-   ```
-3. Get the **Private Key** content (this is your `SSH_PRIVATE_KEY` secret):
-   ```bash
-   cat ./github-actions-deploy-key
-   ```
-
-**In GCP Console:**
-1. Navigate to **Compute Engine > Metadata**.
-2. Click on the **SSH Keys** tab.
-3. Click **Add SSH Key** and paste the content of your **Public Key** (`github-actions-deploy-key.pub`).
-4. Ensure the `VM_USERNAME` secret in GitHub matches exactly what you put here.
-
-### Triggering a Release
-
-```bash
-# Create and push a tag
-git tag 1.0.0
-git push origin 1.0.0
-
-# Or create and push in one command
-git tag 1.0.0 && git push --tags
-```
-
-### Local Development vs Production
-
-| Environment | Command | Behavior |
-|-------------|---------|----------|
-| Development | `docker compose up -d` | Code mounted via volumes, live reload |
-| Production | `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d` | Code baked into images |
-
-### Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `BUILD_TARGET` | `development` | Dockerfile target (`development` or `production`) |
-| `IMAGE_REGISTRY` | `local` | Container registry (e.g., `ghcr.io/username/repo`) |
-| `IMAGE_TAG` | `latest` | Image tag (e.g., `v1.0.0`) |
-
----
-
-## GCP VM Initial Setup
-
-After creating the VM, SSH in and run:
-
-```bash
-# Create app directory
-mkdir -p ~/app
-cd ~/app
-
-# Create docker-compose files (copy from repo or clone)
-# Create .env file with production values
-cat > .env << EOF
-DB_USER=your_db_user
-DB_PASSWORD=your_secure_password
-REPO_URL=https://github.com/ianbunag/cmpe-272-enterprise-software-platforms
-EOF
-```
