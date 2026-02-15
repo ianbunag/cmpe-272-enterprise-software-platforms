@@ -26,6 +26,7 @@ services:
       - DB_NAME=cmpe-272
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
+      - REPO_URL=${REPO_URL}
     depends_on:
       mariadb:
         condition: service_healthy
