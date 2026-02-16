@@ -23,7 +23,19 @@ This guide will walk you through setting up your hosting and web programming env
 ### 4. Cloudflare DNS & SSL
 - In your Cloudflare dashboard, add an **A record** pointing your domain to the `VM_HOST` IP.
 - Enable the Cloudflare proxy (orange cloud **ON**).
-- Set SSL/TLS mode to **Full (Strict)**.
+- Create a **Configuration Rule** to apply Flexible SSL only to this record:
+  - Navigate to **Rules > Overview**.
+  - Click **Create rule**.
+  - **Rule name**: "Flexible SSL for yourdomain.com" (or your chosen name).
+  - **If incoming requests match…**: 
+    - Select `Custom filter expression`
+  - **When incoming requests match…**
+    - Field: `Hostname`
+    - Operator: `equals`
+    - Value: `yourdomain.com`
+  - **Then the settings are…**:
+    - Search for **SSL** and set it to **Flexible**.
+  - Click **Save**.
 
 ### 5. GCP Budget Alert
 - In the GCP Billing dashboard, create a budget alert for **$1.00** to monitor costs.
