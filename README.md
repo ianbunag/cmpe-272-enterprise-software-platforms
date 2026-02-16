@@ -17,7 +17,7 @@ This guide will walk you through setting up your hosting and web programming env
 
 ### 3. Firewall Rules
 - Edit your VM instance.
-- Check both **Allow HTTP traffic** and **Allow HTTPS traffic**.
+- Check **Allow HTTP traffic**.
 - This assigns the `http-server` and `https-server` network tags.
 
 ### 4. Cloudflare DNS & SSL
@@ -140,34 +140,6 @@ git push origin 1.0.0
 ```
 
 Once the GitHub Action completes, your site will be live at your domain.
-
----
-
-## Phase 5: Manual Operations and Troubleshooting
-
-After the automated deployment is set up, you may occasionally need to perform manual operations on the server.
-
-### 1. Manual Image Pull (Manual Deploy Update)
-If you want to manually pull the latest images defined in your `docker-compose.yml` on the server:
-```bash
-cd /var/lib/app
-# You must source your environment or export required variables for the wrapper
-IMAGE_TAG=latest bash /var/lib/app/docker-compose pull
-```
-
-### 2. Restarting Services
-To restart your containers manually:
-```bash
-cd /var/lib/app
-IMAGE_TAG=latest bash /var/lib/app/docker-compose up -d
-```
-
-### 3. Viewing Logs
-To see real-time logs from your application:
-```bash
-cd /var/lib/app
-bash /var/lib/app/docker-compose logs -f
-```
 
 ---
 
