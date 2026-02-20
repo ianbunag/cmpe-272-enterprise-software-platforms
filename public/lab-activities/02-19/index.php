@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow, noarchive">
     <title>Lab Activity 02/19</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <style>
         .black { fill: #000000 }
         .white { fill: #ffffff }

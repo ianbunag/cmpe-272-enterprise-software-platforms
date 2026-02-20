@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="noindex, nofollow, noarchive">
+        <title>Named HTML File Example</title>
+        <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    </head>
+    <body>
+        <main class="container">
+            <article>
+                <header>
+                    <h1>📄 Named HTML File</h1>
+                    <p><mark>Route: /examples/routing/html/about</mark></p>
+                </header>
+                <section>
+                    <h2>Resolution Path</h2>
+                    <p>This page was served because:</p>
+                    <ol>
+                        <li>You requested <code>/examples/routing/html/about</code></li>
+                        <li>Nginx checked for <code>/examples/routing/html/about</code> (exact file) ❌</li>
+                        <li>Nginx found <code>/examples/routing/html/about.html</code> ✅</li>
+                    </ol>
+                    <p><strong>Result:</strong> Static HTML file with custom name served</p>
+                </section>
+                <footer>
+                    <a href="/examples" role="button">← Examples Navigator</a>
+                </footer>
+            </article>
+        </main>
+    </body>
+</html>
