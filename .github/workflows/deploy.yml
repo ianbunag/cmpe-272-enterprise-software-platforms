@@ -38,7 +38,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: php/Dockerfile
+          file: php-fpm/Dockerfile
           target: production
           push: true
           tags: |

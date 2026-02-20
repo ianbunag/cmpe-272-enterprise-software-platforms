@@ -49,11 +49,11 @@ services:
       - REPO_URL=${REPO_URL}
     build:
       context: .
-      dockerfile: php/Dockerfile
+      dockerfile: php-fpm/Dockerfile
       target: development
     volumes:
       - ./:/var/www/html
-      - ./php/custom.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+      - ./php-fpm/custom.ini:/usr/local/etc/php-fpm/conf.d/custom.ini:ro
     depends_on:
       mariadb:
         condition: service_healthy

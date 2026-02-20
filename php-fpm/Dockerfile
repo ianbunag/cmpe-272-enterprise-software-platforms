@@ -33,7 +33,7 @@ COPY public ./public
 COPY migrations ./migrations
 COPY phinx.php ./
 COPY VERSION ./
-COPY php/custom.ini /usr/local/etc/php/conf.d/custom.ini
+COPY php-fpm/custom.ini /usr/local/etc/php/conf.d/custom.ini
 
 # Set ownership
 RUN chown -R www-data:www-data /var/www/html
