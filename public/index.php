@@ -34,22 +34,23 @@ try {
                     <mark>CMPE-272 - Enterprise Software Platforms | Spring 2026</mark>
                 </header>
 
-            <table>
-                <tr><td>📅 Date</td><td><?= date('F j, Y') ?></td></tr>
-                <tr><td>🐘 PHP</td><td><?= phpversion() ?></td></tr>
-                <tr><td>🗄️ Database</td><td><?= $dbStatus ?></td></tr>
-                <tr><td>🏷️ Version</td><td><?= $version ?></td></tr>
-            </table>
+                <table>
+                    <tr><td>📅 Date</td><td><?= date('F j, Y') ?></td></tr>
+                    <tr><td>🐘 PHP</td><td><?= phpversion() ?></td></tr>
+                    <tr><td>🗄️ Database</td><td><?= $dbStatus ?></td></tr>
+                    <tr><td>🏷️ Version</td><td><?= $version ?></td></tr>
+                </table>
 
-            <section>
-                <h2>Navigation</h2>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <a href="/lab-activities" role="button">🧪 Lab Activities</a>
-                    <a href="/examples" role="button" class="secondary">📚 Examples</a>
-                </div>
-            </section>
+                <section>
+                    <h2>Navigation</h2>
+                    <div>
+                        <a href="/banana-buoy" role="button">🍌 Banana Buoy (Mock Company)</a>
+                        <a href="/lab-activities" role="button" class="secondary">🧪 Lab Activities</a>
+                        <a href="/examples" role="button" class="secondary">📚 Examples</a>
+                    </div>
+                </section>
 
-            <footer>
+                <footer>
                     <a href="<?= htmlspecialchars($repoUrl) ?>" role="button" target="_blank">📂 View Source Code</a>
                 </footer>
             </article>

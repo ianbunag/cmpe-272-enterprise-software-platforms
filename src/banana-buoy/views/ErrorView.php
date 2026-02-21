@@ -24,31 +24,29 @@ class ErrorView extends BaseView
     protected function renderContent(array $data = []): void
     {
         ?>
-        <article style="text-align: center;">
-            <hgroup>
-                <h1>⚠️ <?= htmlspecialchars($this->errorTitle) ?></h1>
-                <h2>Error <?= $this->errorCode ?></h2>
-            </hgroup>
+        <article class="banana-buoy-text-align-center">
+            <section>
+                <hgroup>
+                    <h1>⚠️ <?= htmlspecialchars($this->errorTitle) ?></h1>
+                    <h2>Error <?= $this->errorCode ?></h2>
+                </hgroup>
 
-            <p style="font-size: 1.1rem; color: var(--muted-color); margin: 2rem 0;">
-                <?= htmlspecialchars($this->errorMessage) ?>
-            </p>
+                <p>
+                    <?= htmlspecialchars($this->errorMessage) ?>
+                </p>
 
-            <div style="margin: 3rem 0;">
-                <a href="/banana-buoy/" role="button">
-                    🏠 Return to Home
-                </a>
-                <button
-                    role="button"
-                    class="secondary"
-                    onclick="location.reload();"
-                    style="margin-left: 1rem;"
-                >
-                    🔄 Refresh Page
-                </button>
-            </div>
+                <div>
+                    <button
+                            role="button"
+                            class="secondary"
+                            onclick="location.reload();"
+                    >
+                        🔄 Refresh Page
+                    </button>
+                </div>
+            </section>
 
-            <section style="margin-top: 3rem; padding: 2rem; background-color: var(--card-background-color); border-radius: 8px; text-align: left;">
+            <section class="banana-buoy-text-align-left">
                 <h3>What Went Wrong?</h3>
                 <p>
                     We encountered an error while processing your request. Here are some suggestions:
@@ -62,7 +60,7 @@ class ErrorView extends BaseView
                 </ul>
             </section>
 
-            <section style="margin-top: 2rem;">
+            <section>
                 <h3>Need Help?</h3>
                 <p>
                     Visit our <a href="/banana-buoy/contact">Contact Page</a> to reach out, or

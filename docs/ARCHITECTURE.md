@@ -222,6 +222,7 @@ Variables are stored in `.env` file. Common variables:
 - `DB_USER` - Database user
 - `DB_PASSWORD` - Database password
 - `REPO_URL` - GitHub repository URL
+- `IMAGE_HOST` - Image CDN
 
 Load with `getenv('VARIABLE_NAME')`.
 

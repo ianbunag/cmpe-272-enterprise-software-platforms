@@ -28,59 +28,62 @@ class ProductsView extends BaseView
         $products = $data['products'] ?? [];
         ?>
         <article>
-            <hgroup>
-                <h1>🍌 Our Banana Collection</h1>
-                <h2>30+ Premium Varieties from Around the World</h2>
-            </hgroup>
+            <section>
+                <hgroup>
+                    <h1>🍌 Our Banana Collection</h1>
+                    <h2>30+ Premium Varieties from Around the World</h2>
+                </hgroup>
 
-            <p>
-                Explore our exotic banana selection, all transported using sustainable
-                hydrogen-powered refrigeration to preserve maximum freshness and nutrition.
-            </p>
+                <p>
+                    Explore our exotic banana selection, all transported using sustainable
+                    hydrogen-powered refrigeration to preserve maximum freshness and nutrition.
+                </p>
 
-            <?php if (empty($products)): ?>
-                <p><em>No products available at this time.</em></p>
-            <?php else: ?>
-                <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
-                    <?php foreach ($products as $product): ?>
-                        <article style="margin: 0;">
-                            <?php
-                            $imageUrl = htmlspecialchars($product['image_url']);
-                            $altText = htmlspecialchars($product['alt_text']);
-                            ?>
-                            <img
-                                src="<?= $imageUrl ?>"
-                                alt="<?= $altText ?>"
-                                style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px;"
-                            >
+                <?php if (empty($products)): ?>
+                    <p><em>No products available at this time.</em></p>
+                <?php else: ?>
+                    <div class="grid banana-buoy-grid-card-horizontal-layout">
+                        <?php foreach ($products as $product): ?>
+                            <article class="banana-buoy-margin-0">
+                                <?php
+                                $imageUrl = htmlspecialchars($product['image_url']);
+                                $altText = htmlspecialchars($product['alt_text']);
+                                ?>
+                                <header>
+                                    <img
+                                            src="<?= $imageUrl ?>"
+                                            alt="<?= $altText ?>"
+                                            class="banana-buoy-image-thumbnail"
+                                    >
+                                    <hgroup>
+                                        <h3>
+                                            <?= htmlspecialchars($product['name']) ?>
+                                        </h3>
+                                        <p>
+                                            <small><?= htmlspecialchars($product['origin_country']) ?></small>
+                                        </p>
+                                    </hgroup>
+                                </header>
 
-                            <header style="margin-top: 1rem;">
-                                <h3 style="margin-bottom: 0.5rem;">
-                                    <?= htmlspecialchars($product['name']) ?>
-                                </h3>
-                                <p style="margin: 0;">
-                                    <small><?= htmlspecialchars($product['origin_country']) ?></small>
+                                <p>
+                                    <small><?= htmlspecialchars($product['taste_profile']) ?></small>
                                 </p>
-                            </header>
 
-                            <p style="margin: 0.5rem 0;">
-                                <small><?= htmlspecialchars($product['taste_profile']) ?></small>
-                            </p>
+                                <footer class="banana-buoy-layout-space-between">
+                                    <strong>
+                                        $<?= number_format($product['price'], 2) ?>/lb
+                                    </strong>
+                                    <a href="/banana-buoy/products/<?= $product['id'] ?>" role="button" class="secondary">
+                                        View Details
+                                    </a>
+                                </footer>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </section>
 
-                            <footer style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
-                                <strong style="color: var(--primary);">
-                                    $<?= number_format($product['price'], 2) ?>/lb
-                                </strong>
-                                <a href="/banana-buoy/products/<?= $product['id'] ?>" role="button" class="secondary" style="margin: 0; padding: 0.5rem 1rem; font-size: 0.9rem;">
-                                    View Details
-                                </a>
-                            </footer>
-                        </article>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-
-            <section style="margin-top: 3rem; text-align: center;">
+            <section class="banana-buoy-text-align-center">
                 <h3>Why Choose Banana Buoy?</h3>
                 <div class="grid">
                     <div>

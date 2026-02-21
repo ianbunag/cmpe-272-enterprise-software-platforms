@@ -22,17 +22,19 @@ class ContactView extends BaseView
         $submitted = $data['submitted'] ?? false;
         ?>
         <article>
-            <hgroup>
-                <h1>Contact Us</h1>
-                <h2>Get in Touch with Banana Buoy</h2>
-            </hgroup>
+            <section>
+                <hgroup>
+                    <h1>Contact Us</h1>
+                    <h2>Get in Touch with Banana Buoy</h2>
+                </hgroup>
 
-            <img src="../../static/hero-contact.svg"
-                 alt="Professional contact illustration showing communication and customer support"
-                 style="width: 100%; height: auto; max-height: 300px; object-fit: cover; border-radius: 8px; margin: 2rem 0;">
+                <img src="../../static/hero-contact.svg"
+                     alt="Professional contact illustration showing communication and customer support"
+                     class="banana-buoy-image-hero-landscape">
+            </section>
 
             <?php if ($submitted): ?>
-                <div style="padding: 1rem; background-color: var(--primary); color: var(--contrast); border-radius: 4px; margin-bottom: 1rem;">
+                <div class="banana-buoy-alert-info">
                     <strong>Thank you!</strong> We've received your message and will respond shortly.
                 </div>
             <?php endif; ?>

@@ -39,67 +39,69 @@ class NewsDetailView extends BaseView
             $altText = htmlspecialchars($article['alt_text']);
         ?>
             <article>
-                <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
-                    <ul style="padding: 0; list-style: none; display: flex; gap: 0.5rem;">
+                <nav aria-label="breadcrumb">
+                    <ul>
                         <li><a href="/banana-buoy/news">News</a></li>
                         <li><?= htmlspecialchars($article['title']) ?></li>
                     </ul>
                 </nav>
 
-                <header style="text-align: center; margin-bottom: 2rem;">
-                    <h1><?= htmlspecialchars($article['title']) ?></h1>
-                    <p>
-                        <small>
-                            📅 Published on <?= date('F j, Y', strtotime($article['date_published'])) ?>
-                        </small>
-                    </p>
-                </header>
+                <section>
+                    <header class="banana-buoy-text-align-center">
+                        <h1><?= htmlspecialchars($article['title']) ?></h1>
+                        <p>
+                            <small>
+                                📅 Published on <?= date('F j, Y', strtotime($article['date_published'])) ?>
+                            </small>
+                        </p>
+                    </header>
 
-                <div style="margin: 2rem 0;">
-                    <img
-                        src="<?= $imageUrl ?>"
-                        alt="<?= $altText ?>"
-                        style="width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"
-                    >
-                    <p style="text-align: center; margin-top: 0.5rem;">
-                        <small><em><?= $altText ?></em></small>
-                    </p>
-                </div>
+                    <div>
+                        <img
+                                src="<?= $imageUrl ?>"
+                                alt="<?= $altText ?>"
+                                class="banana-buoy-image-hero-landscape"
+                        >
+                        <p class="banana-buoy-text-align-center">
+                            <small><em><?= $altText ?></em></small>
+                        </p>
+                    </div>
 
-                <div style="max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8;">
-                    <?php
-                    // Split content into paragraphs for better readability
-                    $paragraphs = explode('. ', $article['content']);
-                    $currentParagraph = '';
-                    $sentenceCount = 0;
+                    <div>
+                        <?php
+                        // Split content into paragraphs for better readability
+                        $paragraphs = explode('. ', $article['content']);
+                        $currentParagraph = '';
+                        $sentenceCount = 0;
 
-                    foreach ($paragraphs as $sentence) {
-                        $currentParagraph .= trim($sentence) . '. ';
-                        $sentenceCount++;
+                        foreach ($paragraphs as $sentence) {
+                            $currentParagraph .= trim($sentence) . '. ';
+                            $sentenceCount++;
 
-                        // Create a new paragraph every 3-4 sentences
-                        if ($sentenceCount >= 3) {
-                            echo '<p>' . htmlspecialchars(trim($currentParagraph)) . '</p>';
-                            $currentParagraph = '';
-                            $sentenceCount = 0;
+                            // Create a new paragraph every 3-4 sentences
+                            if ($sentenceCount >= 3) {
+                                echo '<p>' . htmlspecialchars(trim($currentParagraph)) . '</p>';
+                                $currentParagraph = '';
+                                $sentenceCount = 0;
+                            }
                         }
-                    }
 
-                    // Output any remaining text
-                    if (!empty(trim($currentParagraph))) {
-                        echo '<p>' . htmlspecialchars(trim($currentParagraph)) . '</p>';
-                    }
-                    ?>
-                </div>
+                        // Output any remaining text
+                        if (!empty(trim($currentParagraph))) {
+                            echo '<p>' . htmlspecialchars(trim($currentParagraph)) . '</p>';
+                        }
+                        ?>
+                    </div>
+                </section>
 
-                <footer style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--muted-border-color);">
+                <footer>
                     <div class="grid">
-                        <div style="margin-bottom:1rem">
+                        <div>
                             <a href="/banana-buoy/news" role="button" class="secondary">
                                 ← Back to All News
                             </a>
                         </div>
-                        <div style="margin-bottom:1rem">
+                        <div>
                             <strong>Share this article:</strong><br>
                             <small>
                                 <a href="#" onclick="return false;">Twitter</a> |
@@ -109,35 +111,6 @@ class NewsDetailView extends BaseView
                         </div>
                     </div>
                 </footer>
-
-                <section style="margin-top: 2rem; padding: 1.5rem; background-color: var(--card-background-color); border-radius: 8px;">
-                    <h3>Related Topics</h3>
-                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                        <?php
-                        $tags = [];
-                        if (stripos($article['title'], 'hydrogen') !== false || stripos($article['content'], 'hydrogen') !== false) {
-                            $tags[] = 'Hydrogen Technology';
-                        }
-                        if (stripos($article['title'], 'pectin') !== false || stripos($article['content'], 'pectin') !== false) {
-                            $tags[] = 'Banana Pectin';
-                        }
-                        if (stripos($article['content'], 'electrolysis') !== false) {
-                            $tags[] = 'PEM Electrolysis';
-                        }
-                        if (stripos($article['content'], 'digestive') !== false || stripos($article['content'], 'fiber') !== false) {
-                            $tags[] = 'Digestive Health';
-                        }
-                        if (stripos($article['content'], 'refrigeration') !== false || stripos($article['content'], 'cold') !== false) {
-                            $tags[] = 'Cold Storage';
-                        }
-
-                        foreach ($tags as $tag): ?>
-                            <span style="padding: 0.3rem 0.8rem; background-color: var(--primary); color: var(--contrast); border-radius: 20px; font-size: 0.85rem;">
-                                <?= htmlspecialchars($tag) ?>
-                            </span>
-                        <?php endforeach; ?>
-                    </div>
-                </section>
             </article>
         <?php endif;
     }

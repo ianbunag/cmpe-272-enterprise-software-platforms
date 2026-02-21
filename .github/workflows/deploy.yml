@@ -104,6 +104,7 @@ jobs:
             export DB_USER=${{ secrets.DB_USER }}
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export REPO_URL=https://github.com/${{ github.repository }}
+            export IMAGE_HOST=${{ secrets.IMAGE_HOST }}
 
             # Pull and restart
             bash /var/lib/app/docker-compose pull

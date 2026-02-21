@@ -30,20 +30,14 @@ abstract class BaseView
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title><?= htmlspecialchars($this->pageTitle ?: $this->title) ?></title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-            <link rel="stylesheet" href="../../static/banana-buoy.css">
-            <style>
-                /* Inline styles for dynamic content only */
-            </style>
+            <link rel="stylesheet" href="../../static/banana-buoy/styles.css?v=9">
         </head>
         <body>
             <nav class="container-fluid">
                 <ul>
                     <li>
-                        <a href="/banana-buoy/" style="text-decoration: none; display: flex; align-items: center; gap: 1rem; color: inherit;">
-                            <img src="../../static/banana-buoy-logo.svg"
-                                 alt="Banana Buoy Logo - A yellow buoy with a banana icon representing sustainable fruit transport"
-                                 class="logo">
-                            <strong>Banana Buoy</strong>
+                        <a href="/banana-buoy/">
+                            <img src="../../static/banana-buoy/logo.png" class="banana-buoy-image-logo">
                         </a>
                     </li>
                 </ul>
@@ -55,7 +49,7 @@ abstract class BaseView
                     <li><a href="/banana-buoy/contact">Contact</a></li>
                 </ul>
             </nav>
-            <main class="container">
+            <div class="container">
         <?php
     }
 
@@ -70,7 +64,7 @@ abstract class BaseView
     protected function renderFooter(): void
     {
         ?>
-            </main>
+            </div>
             <footer class="container">
                 <p>
                     <small>

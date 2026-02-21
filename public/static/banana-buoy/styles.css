@@ -1,0 +1,74 @@
+/* Banana Buoy Custom CSS Variables and Styles */
+
+.grid.banana-buoy-grid-card-horizontal-layout {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.grid.banana-buoy-grid-card-vertical-layout {
+    grid-template-columns: 300px 1fr;
+    gap: 1.5rem;
+}
+
+img.banana-buoy-image-logo {
+    width: 300px;
+    height: auto;
+    object-fit: contain;
+}
+
+.banana-buoy-image-hero-landscape {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+img.banana-buoy-image-thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+img.banana-buoy-image-hero-square {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.banana-buoy-alert-info {
+    background-color: #e0f7fa;
+    color: #00796b;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.banana-buoy-tag {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+.banana-buoy-text-align-left {
+    text-align: left;
+}
+
+.banana-buoy-text-align-center {
+    text-align: center;
+}
+
+.banana-buoy-margin-0 {
+    margin: 0;
+}
+
+.banana-buoy-width-100p {
+    width: 100%;
+}
+
+.banana-buoy-layout-space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

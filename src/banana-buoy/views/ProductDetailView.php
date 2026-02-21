@@ -28,70 +28,72 @@ class ProductDetailView extends BaseView
             $altText = htmlspecialchars($product['alt_text']);
         ?>
             <article>
-                <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
-                    <ul style="padding: 0; list-style: none; display: flex; gap: 0.5rem;">
+                <nav aria-label="breadcrumb">
+                    <ul>
                         <li><a href="/banana-buoy/products">Products</a></li>
                         <li><?= htmlspecialchars($product['name']) ?></li>
                     </ul>
                 </nav>
 
-                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
-                    <div>
+                <section>
+                    <div class="grid banana-buoy-grid-card-vertical-layout">
+                        <div>
                             <img
-                                src="<?= $imageUrl ?>"
-                                alt="<?= $altText ?>"
-                                style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"
+                                    src="<?= $imageUrl ?>"
+                                    alt="<?= $altText ?>"
+                                    class="banana-buoy-image-hero-square"
                             >
-                    </div>
+                        </div>
 
-                    <div>
-                        <hgroup>
-                            <h1><?= htmlspecialchars($product['name']) ?></h1>
-                            <h2><?= htmlspecialchars($product['origin_country']) ?></h2>
-                        </hgroup>
+                        <div>
+                            <hgroup>
+                                <h1><?= htmlspecialchars($product['name']) ?></h1>
+                                <h2><?= htmlspecialchars($product['origin_country']) ?></h2>
+                            </hgroup>
 
-                        <p style="font-size: 2rem; color: var(--primary); font-weight: bold; margin: 1rem 0;">
-                            $<?= number_format($product['price'], 2) ?> <small style="font-size: 1rem; color: var(--muted-color);">per lb</small>
-                        </p>
+                            <h3>
+                                $<?= number_format($product['price'], 2) ?> <small>per lb</small>
+                            </h3>
 
-                        <section>
-                            <h3>Taste Profile</h3>
-                            <p><?= htmlspecialchars($product['taste_profile']) ?></p>
-                        </section>
+                            <section>
+                                <h4>Taste Profile</h4>
+                                <p><?= htmlspecialchars($product['taste_profile']) ?></p>
+                            </section>
 
-                        <section>
-                            <h3>Health Benefits</h3>
-                            <ul>
-                                <li><strong>Rich in Pectin Fiber:</strong> Supports digestive health and feeds beneficial gut bacteria</li>
-                                <li><strong>Natural Energy:</strong> Provides sustained energy through natural sugars and complex carbohydrates</li>
-                                <li><strong>Vitamins & Minerals:</strong> Excellent source of potassium, vitamin B6, and vitamin C</li>
-                                <li><strong>Resistant Starch:</strong> Green-tipped varieties help regulate blood sugar levels</li>
-                            </ul>
-                        </section>
+                            <section>
+                                <h4>Health Benefits</h4>
+                                <ul>
+                                    <li><strong>Rich in Pectin Fiber:</strong> Supports digestive health and feeds beneficial gut bacteria</li>
+                                    <li><strong>Natural Energy:</strong> Provides sustained energy through natural sugars and complex carbohydrates</li>
+                                    <li><strong>Vitamins & Minerals:</strong> Excellent source of potassium, vitamin B6, and vitamin C</li>
+                                    <li><strong>Resistant Starch:</strong> Green-tipped varieties help regulate blood sugar levels</li>
+                                </ul>
+                            </section>
 
-                        <section>
-                            <h3>Sustainability</h3>
-                            <p>
-                                This banana was transported using our revolutionary hydrogen-powered
-                                refrigeration system. Through seawater PEM electrolysis, we maintain
-                                optimal temperature (13-14°C) while reducing carbon emissions by 90%
-                                compared to traditional diesel systems.
-                            </p>
-                        </section>
+                            <section>
+                                <h4>Sustainability</h4>
+                                <p>
+                                    This banana was transported using our revolutionary hydrogen-powered
+                                    refrigeration system. Through seawater PEM electrolysis, we maintain
+                                    optimal temperature (13-14°C) while reducing carbon emissions by 90%
+                                    compared to traditional diesel systems.
+                                </p>
+                            </section>
 
-                        <div style="margin-top: 2rem;">
-                            <button type="button" style="width: 100%;">Add to Cart (Coming Soon)</button>
-                            <a href="/banana-buoy/products" role="button" class="secondary" style="width: 100%; margin-top: 0.5rem;">
-                                ← Back to All Products
-                            </a>
+                            <div>
+                                <button type="button" class="banana-buoy-width-100p">Add to Cart (Coming Soon)</button>
+                                <a href="/banana-buoy/products" role="button" class="secondary banana-buoy-width-100p">
+                                    ← Back to All Products
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <section style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--muted-border-color);">
+                <section>
                     <h3>Nutrition Information</h3>
                     <p><small><em>Values are approximate per 100g of banana</em></small></p>
-                    <div class="grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="grid">
                         <div>
                             <strong>Calories</strong><br>
                             89 kcal

@@ -15,14 +15,16 @@ class AboutView extends BaseView
     {
         ?>
         <article>
-            <hgroup>
-                <h1>About Banana Buoy</h1>
-                <h2>Sustainable Banana Transport Through Clean Energy Innovation</h2>
-            </hgroup>
+            <section>
+                <hgroup>
+                    <h1>About Banana Buoy</h1>
+                    <h2>Sustainable Banana Transport Through Clean Energy Innovation</h2>
+                </hgroup>
 
-            <img src="../../static/hero-about.svg"
-                 alt="Illustration of seawater electrolysis process converting water to hydrogen fuel for sustainable transport"
-                 style="width: 100%; height: auto; max-height: 400px; object-fit: cover; border-radius: 8px; margin: 2rem 0;">
+                <img src="../../static/hero-about.svg"
+                     alt="Illustration of seawater electrolysis process converting water to hydrogen fuel for sustainable transport"
+                     class="banana-buoy-image-hero-landscape">
+            </section>
 
             <section>
                 <h3>🌊 Our Mission</h3>
@@ -142,7 +144,7 @@ class AboutView extends BaseView
                 </p>
             </section>
 
-            <div style="text-align: center; margin-top: 2rem;">
+            <div class="banana-buoy-text-align-center">
                 <a href="/banana-buoy/products" role="button">Explore Our Products</a>
                 <a href="/banana-buoy/news" role="button" class="secondary">Read Latest Research</a>
             </div>

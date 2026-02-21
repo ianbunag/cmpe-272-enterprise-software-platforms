@@ -91,6 +91,7 @@ cat > /var/lib/app/.env << EOF
 DB_USER=your_db_user
 DB_PASSWORD=your_secure_password
 REPO_URL=https://github.com/your-username/your-repo
+IMAGE_HOST=https://storage.googleapis.com/project-name
 EOF
 chmod 660 /var/lib/app/.env
 ```

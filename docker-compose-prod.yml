@@ -40,6 +40,7 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - REPO_URL=${REPO_URL}
+      - IMAGE_HOST=${IMAGE_HOST}
     depends_on:
       mariadb:
         condition: service_healthy
