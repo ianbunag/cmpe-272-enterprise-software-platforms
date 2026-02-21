@@ -54,13 +54,6 @@ function scanDirectory($dir, $relativePath = '') {
 
 $items = scanDirectory($baseDir);
 
-// Sort items: directories first, then files, alphabetically
-usort($items, function($a, $b) {
-    if ($a['type'] !== $b['type']) {
-        return $a['type'] === 'directory' ? -1 : 1;
-    }
-    return strcmp($a['name'], $b['name']);
-});
 // Filter out directories with no index file (optional, depending on how you want to handle them)
 $items = array_filter($items, function($item) {
     return !($item['type'] === 'directory' && !$item['hasIndex']);
@@ -138,8 +131,7 @@ $items = array_filter($items, function($item) {
 
             <section>
                 <h2>About Examples</h2>
-                <p>This directory contains code examples and demonstrations for various concepts covered in CMPE-272.</p>
-                <p>Examples showcase routing patterns, PHP functionality, HTML structures, and other web development techniques.</p>
+                <p>This directory contains code examples and demonstrations for various repository functionalities such as routing.</p>
             </section>
 
             <footer>

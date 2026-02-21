@@ -20,24 +20,6 @@ $id = $_GET['id'] ?? 'id';
                 </header>
 
                 <section>
-                    <h2>Dynamic Routing Information</h2>
-                    <table>
-                        <tr>
-                            <td><strong>Customer/User ID</strong></td>
-                            <td><code><?= htmlspecialchars($id) ?></code></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Request URI</strong></td>
-                            <td><code><?= htmlspecialchars($_SERVER['REQUEST_URI']) ?></code></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Script Name</strong></td>
-                            <td><code><?= htmlspecialchars($_SERVER['SCRIPT_NAME']) ?></code></td>
-                        </tr>
-                    </table>
-                </section>
-
-                <section>
                     <h2>How It Works</h2>
                     <ol>
                         <li>You requested <code>/examples/routing/dynamic/<?= htmlspecialchars($id) ?>/products</code></li>

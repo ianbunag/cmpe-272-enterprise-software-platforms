@@ -20,8 +20,6 @@
                     <p>This page was served because:</p>
                     <ol>
                         <li>You requested <code>/examples/routing/php/contact</code></li>
-                        <li>Nginx checked for <code>/examples/routing/php/contact</code> (exact file) ❌</li>
-                        <li>Nginx checked for <code>/examples/routing/php/contact.html</code> ❌</li>
                         <li>Nginx found <code>/examples/routing/php/contact.php</code> ✅</li>
                         <li>Nginx passed it to PHP-FPM for processing</li>
                     </ol>

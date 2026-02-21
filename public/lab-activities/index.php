@@ -20,10 +20,6 @@ if ($handle = opendir($baseDir)) {
     closedir($handle);
 }
 
-// Sort directories by name
-usort($directories, function($a, $b) {
-    return strcmp($a['name'], $b['name']);
-});
 ?>
 <!DOCTYPE html>
 <html lang="en">
