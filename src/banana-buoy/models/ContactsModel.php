@@ -11,9 +11,6 @@ class ContactsModel
         $this->filePath = __DIR__ . '/contacts.txt';
     }
 
-    /**
-     * Get the contact email from the text file
-     */
     public function getContactEmail(): string
     {
         if (!file_exists($this->filePath)) {

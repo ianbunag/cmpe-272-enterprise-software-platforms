@@ -51,13 +51,5 @@ class DatabaseModel
 
         return self::$instance;
     }
-
-    /**
-     * Close the database connection
-     */
-    public static function closeConnection(): void
-    {
-        self::$instance = null;
-    }
 }
 

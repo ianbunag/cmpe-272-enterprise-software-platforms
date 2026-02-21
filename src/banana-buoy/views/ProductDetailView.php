@@ -24,16 +24,13 @@ class ProductDetailView extends BaseView
                 <a href="/banana-buoy/products" role="button">← Back to Products</a>
             </article>
         <?php else:
-            $imageUrl = !empty($product['image_url'])
-                ? htmlspecialchars($product['image_url'])
-                : '../../static/placeholder-banana.svg';
+            $imageUrl = htmlspecialchars($product['image_url']);
             $altText = htmlspecialchars($product['alt_text']);
         ?>
             <article>
                 <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
                     <ul style="padding: 0; list-style: none; display: flex; gap: 0.5rem;">
                         <li><a href="/banana-buoy/products">Products</a></li>
-                        <li>/</li>
                         <li><?= htmlspecialchars($product['name']) ?></li>
                     </ul>
                 </nav>
@@ -44,14 +41,13 @@ class ProductDetailView extends BaseView
                                 src="<?= $imageUrl ?>"
                                 alt="<?= $altText ?>"
                                 style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"
-                                onerror="this.src='../../static/placeholder-banana.svg'"
                             >
                     </div>
 
                     <div>
                         <hgroup>
                             <h1><?= htmlspecialchars($product['name']) ?></h1>
-                            <h2>🌍 Origin: <?= htmlspecialchars($product['origin_country']) ?></h2>
+                            <h2><?= htmlspecialchars($product['origin_country']) ?></h2>
                         </hgroup>
 
                         <p style="font-size: 2rem; color: var(--primary); font-weight: bold; margin: 1rem 0;">

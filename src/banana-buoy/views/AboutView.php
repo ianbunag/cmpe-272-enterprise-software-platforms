@@ -20,6 +20,10 @@ class AboutView extends BaseView
                 <h2>Sustainable Banana Transport Through Clean Energy Innovation</h2>
             </hgroup>
 
+            <img src="../../static/hero-about.svg"
+                 alt="Illustration of seawater electrolysis process converting water to hydrogen fuel for sustainable transport"
+                 style="width: 100%; height: auto; max-height: 400px; object-fit: cover; border-radius: 8px; margin: 2rem 0;">
+
             <section>
                 <h3>🌊 Our Mission</h3>
                 <p>
@@ -79,7 +83,7 @@ class AboutView extends BaseView
                         refrigeration systems."
                     </p>
                     <footer>
-                        <cite>— Dr. Elena Rodriguez, Chief Sustainability Officer</cite>
+                        <cite>— Dr. Otto Gunther Octavius, Chief Sustainability Officer</cite>
                     </footer>
                 </blockquote>
             </section>

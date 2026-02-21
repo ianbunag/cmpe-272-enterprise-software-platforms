@@ -1,0 +1,33 @@
+<!-- Hero image for contact page -->
+<svg width="800" height="300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="contactGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F3E5F5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E1BEE7;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="300" fill="url(#contactGradient)"/>
+
+  <!-- Message envelope -->
+  <rect x="150" y="80" width="150" height="100" fill="#FFFFFF" stroke="#7B1FA2" stroke-width="2" rx="4"/>
+  <path d="M 150 80 L 225 140 L 300 80" stroke="#7B1FA2" stroke-width="2" fill="none"/>
+  <text x="225" y="140" font-size="40" text-anchor="middle" fill="#7B1FA2">✉️</text>
+
+  <!-- Communication arrows -->
+  <path d="M 320 120 L 380 120" stroke="#7B1FA2" stroke-width="2" fill="none" marker-end="url(#arrowhead2)"/>
+  <path d="M 480 120 L 420 120" stroke="#7B1FA2" stroke-width="2" fill="none" marker-end="url(#arrowhead2)"/>
+  <defs><marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><polygon points="0 0, 10 5, 0 10" fill="#7B1FA2"/></marker></defs>
+
+  <!-- Phone support -->
+  <circle cx="500" cy="120" r="40" fill="#FFFFFF" stroke="#7B1FA2" stroke-width="2"/>
+  <text x="500" y="135" font-size="40" text-anchor="middle" fill="#7B1FA2">☎️</text>
+
+  <!-- Help icon -->
+  <circle cx="650" cy="120" r="40" fill="#FFFFFF" stroke="#7B1FA2" stroke-width="2"/>
+  <text x="650" y="135" font-size="40" text-anchor="middle" fill="#7B1FA2">❓</text>
+
+  <!-- Text below -->
+  <text x="400" y="270" font-size="16" text-anchor="middle" fill="#333" font-weight="bold">We're Here to Help</text>
+  <text x="400" y="295" font-size="14" text-anchor="middle" fill="#666">Get in touch with our team</text>
+</svg>
+

@@ -20,6 +20,10 @@ class HomeView extends BaseView
                 <h2>Sustainable Banana Transport Powered by Hydrogen</h2>
             </hgroup>
 
+            <img src="../../static/hero-home.svg"
+                 alt="Hero image showing a hydrogen-powered banana transport vessel with sustainable technology"
+                 style="width: 100%; height: auto; max-height: 400px; object-fit: cover; border-radius: 8px; margin: 2rem 0;">
+
             <p>
                 Discover the world's finest bananas, transported fresh using cutting-edge
                 <strong>Seawater Hydrogen Electrolysis</strong> technology for refrigeration.

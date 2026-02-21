@@ -30,42 +30,21 @@ abstract class BaseView
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title><?= htmlspecialchars($this->pageTitle ?: $this->title) ?></title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+            <link rel="stylesheet" href="../../static/banana-buoy.css">
             <style>
-                :root {
-                    --primary: #f4d03f;
-                    --primary-hover: #f39c12;
-                }
-                .logo-container {
-                    display: flex;
-                    align-items: center;
-                    gap: 1rem;
-                }
-                .logo {
-                    max-height: 50px;
-                    width: auto;
-                }
-                nav ul li a.active {
-                    font-weight: bold;
-                    text-decoration: underline;
-                }
-                footer {
-                    margin-top: 3rem;
-                    padding: 2rem 0;
-                    text-align: center;
-                    border-top: 1px solid var(--muted-border-color);
-                }
+                /* Inline styles for dynamic content only */
             </style>
         </head>
         <body>
             <nav class="container-fluid">
                 <ul>
                     <li>
-                        <div class="logo-container">
+                        <a href="/banana-buoy/" style="text-decoration: none; display: flex; align-items: center; gap: 1rem; color: inherit;">
                             <img src="../../static/banana-buoy-logo.svg"
                                  alt="Banana Buoy Logo - A yellow buoy with a banana icon representing sustainable fruit transport"
                                  class="logo">
                             <strong>Banana Buoy</strong>
-                        </div>
+                        </a>
                     </li>
                 </ul>
                 <ul>

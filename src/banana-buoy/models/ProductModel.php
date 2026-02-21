@@ -18,7 +18,15 @@ class ProductModel
     }
 
     /**
-     * Get all products
+     * @return array<int, array{
+     *     id: int,
+     *     name: string,
+     *     origin_country: string,
+     *     taste_profile: string,
+     *     image_url: string,
+     *     alt_text: string,
+     *     price: string
+     * }> Array of all product records, empty array on error
      */
     public function getAll(): array
     {
@@ -37,7 +45,15 @@ class ProductModel
     }
 
     /**
-     * Get a product by ID
+     * @return array{
+     *     id: int,
+     *     name: string,
+     *     origin_country: string,
+     *     taste_profile: string,
+     *     image_url: string,
+     *     alt_text: string,
+     *     price: string
+     * }|null Product record if found, null if not found or error occurs
      */
     public function getById(int $id): ?array
     {

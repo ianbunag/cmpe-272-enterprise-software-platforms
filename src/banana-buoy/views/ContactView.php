@@ -11,6 +11,11 @@ class ContactView extends BaseView
         $this->pageTitle = 'Contact - Banana Buoy';
     }
 
+    /**
+     * @param array $data Array containing contact information
+     *                    - contactEmail (string): Primary contact email address
+     *                    - submitted (bool): Whether form was submitted successfully
+     */
     protected function renderContent(array $data = []): void
     {
         $contactEmail = $data['contactEmail'] ?? '';
@@ -21,6 +26,10 @@ class ContactView extends BaseView
                 <h1>Contact Us</h1>
                 <h2>Get in Touch with Banana Buoy</h2>
             </hgroup>
+
+            <img src="../../static/hero-contact.svg"
+                 alt="Professional contact illustration showing communication and customer support"
+                 style="width: 100%; height: auto; max-height: 300px; object-fit: cover; border-radius: 8px; margin: 2rem 0;">
 
             <?php if ($submitted): ?>
                 <div style="padding: 1rem; background-color: var(--primary); color: var(--contrast); border-radius: 4px; margin-bottom: 1rem;">

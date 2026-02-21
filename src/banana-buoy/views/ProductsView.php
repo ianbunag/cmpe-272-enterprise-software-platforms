@@ -11,6 +11,18 @@ class ProductsView extends BaseView
         $this->pageTitle = 'Products - Banana Buoy';
     }
 
+    /**
+     * @param array $data Array containing product data
+     *                    - products: array<int, array{
+     *                        id: int,
+     *                        name: string,
+     *                        origin_country: string,
+     *                        taste_profile: string,
+     *                        image_url: string,
+     *                        alt_text: string,
+     *                        price: string
+     *                      }>
+     */
     protected function renderContent(array $data = []): void
     {
         $products = $data['products'] ?? [];
@@ -33,16 +45,13 @@ class ProductsView extends BaseView
                     <?php foreach ($products as $product): ?>
                         <article style="margin: 0;">
                             <?php
-                            $imageUrl = !empty($product['image_url'])
-                                ? htmlspecialchars($product['image_url'])
-                                : '../../static/placeholder-banana.svg';
+                            $imageUrl = htmlspecialchars($product['image_url']);
                             $altText = htmlspecialchars($product['alt_text']);
                             ?>
                             <img
                                 src="<?= $imageUrl ?>"
                                 alt="<?= $altText ?>"
                                 style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px;"
-                                onerror="this.src='../../static/placeholder-banana.svg'"
                             >
 
                             <header style="margin-top: 1rem;">
@@ -50,7 +59,7 @@ class ProductsView extends BaseView
                                     <?= htmlspecialchars($product['name']) ?>
                                 </h3>
                                 <p style="margin: 0;">
-                                    <small>🌍 <?= htmlspecialchars($product['origin_country']) ?></small>
+                                    <small><?= htmlspecialchars($product['origin_country']) ?></small>
                                 </p>
                             </header>
 

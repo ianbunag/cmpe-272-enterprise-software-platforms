@@ -11,6 +11,17 @@ class NewsDetailView extends BaseView
         $this->pageTitle = 'News Article - Banana Buoy';
     }
 
+    /**
+     * @param array $data Array containing article data
+     *                    - article: array{
+     *                        id: int,
+     *                        title: string,
+     *                        content: string,
+     *                        date_published: string,
+     *                        image_url: string,
+     *                        alt_text: string
+     *                      }|null (null if article not found)
+     */
     protected function renderContent(array $data = []): void
     {
         $article = $data['article'] ?? null;
@@ -24,16 +35,13 @@ class NewsDetailView extends BaseView
                 <a href="/banana-buoy/news" role="button">← Back to News</a>
             </article>
         <?php else:
-            $imageUrl = !empty($article['image_url'])
-                ? htmlspecialchars($article['image_url'])
-                : '../../static/placeholder-news.svg';
+            $imageUrl = htmlspecialchars($article['image_url']);
             $altText = htmlspecialchars($article['alt_text']);
         ?>
             <article>
                 <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
                     <ul style="padding: 0; list-style: none; display: flex; gap: 0.5rem;">
                         <li><a href="/banana-buoy/news">News</a></li>
-                        <li>/</li>
                         <li><?= htmlspecialchars($article['title']) ?></li>
                     </ul>
                 </nav>
@@ -86,12 +94,12 @@ class NewsDetailView extends BaseView
 
                 <footer style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--muted-border-color);">
                     <div class="grid">
-                        <div>
+                        <div style="margin-bottom:1rem">
                             <a href="/banana-buoy/news" role="button" class="secondary">
                                 ← Back to All News
                             </a>
                         </div>
-                        <div style="text-align: right;">
+                        <div style="margin-bottom:1rem">
                             <strong>Share this article:</strong><br>
                             <small>
                                 <a href="#" onclick="return false;">Twitter</a> |

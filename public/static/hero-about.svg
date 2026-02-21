@@ -1,0 +1,61 @@
+<!-- Hero image for about page -->
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E3F2FD;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#90CAF9;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#skyGradient)"/>
+
+  <!-- Sun -->
+  <circle cx="700" cy="80" r="50" fill="#FFD700"/>
+
+  <!-- Seawater intake -->
+  <path d="M 50 300 L 80 320 L 100 300" stroke="#4A90E2" stroke-width="3" fill="none"/>
+  <text x="60" y="350" font-size="14" fill="#333">Seawater</text>
+
+  <!-- Arrow 1 -->
+  <path d="M 120 280 L 160 240" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <defs><marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><polygon points="0 0, 10 5, 0 10" fill="#666"/></marker></defs>
+
+  <!-- PEM Electrolysis box -->
+  <rect x="180" y="160" width="120" height="100" fill="#FFE082" stroke="#FBC02D" stroke-width="2" rx="8"/>
+  <text x="240" y="190" font-size="12" text-anchor="middle" fill="#333" font-weight="bold">PEM</text>
+  <text x="240" y="210" font-size="12" text-anchor="middle" fill="#333">Electrolysis</text>
+  <text x="240" y="230" font-size="11" text-anchor="middle" fill="#666">H₂O → H₂ + O₂</text>
+
+  <!-- Arrow 2 to H2 -->
+  <path d="M 310 200 L 370 200" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+
+  <!-- Hydrogen production -->
+  <circle cx="400" cy="160" r="20" fill="#E8E8E8" stroke="#999" stroke-width="2"/>
+  <text x="400" y="172" font-size="18" text-anchor="middle" fill="#333">H₂</text>
+  <text x="400" y="210" font-size="12" text-anchor="middle" fill="#333">Hydrogen Fuel</text>
+
+  <!-- Arrow 3 to storage -->
+  <path d="M 430 160 L 490 160" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+
+  <!-- Storage tanks -->
+  <rect x="500" y="120" width="30" height="80" fill="#90CAF9" stroke="#1976D2" stroke-width="2" rx="4"/>
+  <rect x="540" y="120" width="30" height="80" fill="#90CAF9" stroke="#1976D2" stroke-width="2" rx="4"/>
+  <text x="557" y="210" font-size="11" text-anchor="middle" fill="#333">Storage</text>
+
+  <!-- Arrow 4 to fuel cell -->
+  <path d="M 580 160 L 640 160" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+
+  <!-- Fuel cell -->
+  <rect x="650" y="130" width="60" height="60" fill="#C8E6C9" stroke="#388E3C" stroke-width="2" rx="4"/>
+  <text x="680" y="168" font-size="12" text-anchor="middle" fill="#333">⚡</text>
+
+  <!-- Arrow 5 to refrigeration -->
+  <path d="M 680 200 L 680 260" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+
+  <!-- Refrigeration -->
+  <rect x="620" y="270" width="120" height="60" fill="#BBDEFB" stroke="#0277BD" stroke-width="2" rx="4"/>
+  <text x="680" y="305" font-size="14" text-anchor="middle" fill="#333">❄️ 13-14°C</text>
+
+  <!-- Title -->
+  <text x="400" y="30" font-size="18" text-anchor="middle" fill="#333" font-weight="bold">Seawater → Electrolysis → Fuel → Cold Storage</text>
+</svg>
+

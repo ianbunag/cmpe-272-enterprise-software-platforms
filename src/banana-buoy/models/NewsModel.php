@@ -18,7 +18,14 @@ class NewsModel
     }
 
     /**
-     * Get all news articles
+     * @return array<int, array{
+     *     id: int,
+     *     title: string,
+     *     content: string,
+     *     date_published: string,
+     *     image_url: string,
+     *     alt_text: string
+     * }> Array of all news articles, empty array on error
      */
     public function getAll(): array
     {
@@ -37,7 +44,14 @@ class NewsModel
     }
 
     /**
-     * Get a news article by ID
+     * @return array{
+     *     id: int,
+     *     title: string,
+     *     content: string,
+     *     date_published: string,
+     *     image_url: string,
+     *     alt_text: string
+     * }|null News article record if found, null if not found or error occurs
      */
     public function getById(int $id): ?array
     {

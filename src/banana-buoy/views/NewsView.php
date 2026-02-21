@@ -11,6 +11,17 @@ class NewsView extends BaseView
         $this->pageTitle = 'News - Banana Buoy';
     }
 
+    /**
+     * @param array $data Array containing news articles
+     *                    - news: array<int, array{
+     *                        id: int,
+     *                        title: string,
+     *                        content: string,
+     *                        date_published: string,
+     *                        image_url: string,
+     *                        alt_text: string
+     *                      }>
+     */
     protected function renderContent(array $data = []): void
     {
         $newsArticles = $data['news'] ?? [];
@@ -31,9 +42,7 @@ class NewsView extends BaseView
             <?php else: ?>
                 <div style="display: flex; flex-direction: column; gap: 2rem;">
                     <?php foreach ($newsArticles as $article):
-                        $imageUrl = !empty($article['image_url'])
-                            ? htmlspecialchars($article['image_url'])
-                            : '../../static/placeholder-news.svg';
+                        $imageUrl = $article['image_url'];
                         $altText = htmlspecialchars($article['alt_text']);
                         $excerpt = substr($article['content'], 0, 200) . '...';
                     ?>
@@ -44,7 +53,6 @@ class NewsView extends BaseView
                                         src="<?= $imageUrl ?>"
                                         alt="<?= $altText ?>"
                                         style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px;"
-                                        onerror="this.src='../../static/placeholder-news.svg'"
                                     >
                                 </div>
 
@@ -82,8 +90,8 @@ class NewsView extends BaseView
                     Subscribe to our newsletter for the latest updates on hydrogen technology
                     innovations and nutritional research.
                 </p>
-                <form method="POST" style="max-width: 500px; margin: 1rem auto; display: flex; gap: 0.5rem;">
-                    <input type="email" placeholder="your.email@example.com" style="flex: 1;" required>
+                <form method="POST" style="margin: 1rem auto; display: flex; gap: 0.5rem;">
+                    <input type="email" placeholder="your.email@example.com" required>
                     <button type="submit">Subscribe</button>
                 </form>
             </section>
