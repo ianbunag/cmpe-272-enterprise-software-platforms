@@ -9,6 +9,7 @@ class NewsDetailView extends BaseView
     public function __construct()
     {
         $this->pageTitle = 'News Article - Banana Buoy';
+        parent::__construct();
     }
 
     /**

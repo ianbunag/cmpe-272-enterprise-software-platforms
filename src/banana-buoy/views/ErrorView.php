@@ -19,6 +19,7 @@ class ErrorView extends BaseView
         $this->errorTitle = $title;
         $this->errorMessage = $message;
         $this->errorCode = $code;
+        parent::__construct();
     }
 
     protected function renderContent(array $data = []): void

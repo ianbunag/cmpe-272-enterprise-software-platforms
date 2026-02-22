@@ -9,6 +9,7 @@ class ProductsView extends BaseView
     public function __construct()
     {
         $this->pageTitle = 'Products - Banana Buoy';
+        parent::__construct();
     }
 
     /**

@@ -10,6 +10,12 @@ abstract class BaseView
 {
     protected string $title = 'Banana Buoy';
     protected string $pageTitle = '';
+    protected string $version = '';
+
+    public function __construct()
+    {
+        $this->version = (new VersionModel())->gerVersion();
+    }
 
     /**
      * Render the complete page with header and footer
@@ -26,8 +32,6 @@ abstract class BaseView
      */
     protected function renderHeader(): void
     {
-        $version = (new VersionModel())->gerVersion();
-
         ?>
         <!DOCTYPE html>
         <html lang="en">
@@ -37,8 +41,8 @@ abstract class BaseView
             <title><?= htmlspecialchars($this->pageTitle ?: $this->title) ?></title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
             <link rel="icon" type="image/x-icon" href="/static/banana-buoy/favicon.ico">
-            <link rel="stylesheet" href="/../../static/banana-buoy/pico.css?version=<?= $version ?>">
-            <link rel="stylesheet" href="/../../static/banana-buoy/styles.css?version=<?= $version ?>">
+            <link rel="stylesheet" href="/../../static/banana-buoy/pico.css?version=<?= $this->version ?>">
+            <link rel="stylesheet" href="/../../static/banana-buoy/styles.css?version=<?= $this->version ?>">
         </head>
         <body>
             <nav class="container-fluid">

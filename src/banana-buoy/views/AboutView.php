@@ -9,6 +9,7 @@ class AboutView extends BaseView
     public function __construct()
     {
         $this->pageTitle = 'About - Banana Buoy';
+        parent::__construct();
     }
 
     protected function renderContent(array $data = []): void
@@ -21,7 +22,7 @@ class AboutView extends BaseView
                     <h2>Sustainable Banana Transport Through Clean Energy Innovation</h2>
                 </hgroup>
 
-                <img src="../../static/hero-about.svg"
+                <img src="../../static/banana-buoy/hero-about.webp?version=<?= $this->version ?>"
                      alt="Illustration of seawater electrolysis process converting water to hydrogen fuel for sustainable transport"
                      class="banana-buoy-image-hero-landscape">
             </section>
