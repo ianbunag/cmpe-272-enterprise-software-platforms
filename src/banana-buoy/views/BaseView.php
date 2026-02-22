@@ -36,6 +36,7 @@ abstract class BaseView
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title><?= htmlspecialchars($this->pageTitle ?: $this->title) ?></title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+            <link rel="icon" type="image/x-icon" href="/static/banana-buoy/favicon.ico">
             <link rel="stylesheet" href="/../../static/banana-buoy/pico.css?version=<?= $version ?>">
             <link rel="stylesheet" href="/../../static/banana-buoy/styles.css?version=<?= $version ?>">
         </head>
