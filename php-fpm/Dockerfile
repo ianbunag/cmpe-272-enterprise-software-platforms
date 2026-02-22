@@ -30,6 +30,7 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interactio
 
 # Copy application code
 COPY public ./public
+COPY src ./src
 COPY migrations ./migrations
 COPY phinx.php ./
 COPY VERSION ./

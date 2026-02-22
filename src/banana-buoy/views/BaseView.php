@@ -2,6 +2,10 @@
 
 namespace BananaBuoy\Views;
 
+require_once __DIR__ . '/../../models/VersionModel.php';
+
+use Models\VersionModel;
+
 abstract class BaseView
 {
     protected string $title = 'Banana Buoy';
@@ -22,6 +26,8 @@ abstract class BaseView
      */
     protected function renderHeader(): void
     {
+        $version = (new VersionModel())->gerVersion();
+
         ?>
         <!DOCTYPE html>
         <html lang="en">
@@ -30,8 +36,8 @@ abstract class BaseView
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title><?= htmlspecialchars($this->pageTitle ?: $this->title) ?></title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-            <link rel="stylesheet" href="/../../static/banana-buoy/pico.css">
-            <link rel="stylesheet" href="/../../static/banana-buoy/styles.css">
+            <link rel="stylesheet" href="/../../static/banana-buoy/pico.css?version=<?= $version ?>">
+            <link rel="stylesheet" href="/../../static/banana-buoy/styles.css?version=<?= $version ?>">
         </head>
         <body>
             <nav class="container-fluid">

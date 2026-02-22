@@ -21,7 +21,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Update VERSION file
+      - name: Create VERSION file
         run: echo "${{ github.ref_name }}" > VERSION
 
       - name: Log in to Container Registry

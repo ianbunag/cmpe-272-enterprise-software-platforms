@@ -1,6 +1,10 @@
 <?php
 
-$version = file_exists(__DIR__ . '/../VERSION') ? trim(file_get_contents(__DIR__ . '/../VERSION')) : 'v0.0.0';
+require_once __DIR__ . '/../src/models/VersionModel.php';
+
+use Models\VersionModel;
+
+$version = (new VersionModel())->gerVersion();
 $repoUrl = getenv('REPO_URL') ?: '#';
 
 try {
