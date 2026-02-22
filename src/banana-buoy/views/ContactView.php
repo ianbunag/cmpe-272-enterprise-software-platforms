@@ -21,6 +21,12 @@ class ContactView extends BaseView
         $contactEmail = $data['contactEmail'] ?? '';
         $submitted = $data['submitted'] ?? false;
         ?>
+        <?php if ($submitted): ?>
+            <div class="banana-buoy-alert-info">
+                <strong>Thank you!</strong> We've received your message and will respond shortly.
+            </div>
+        <?php endif; ?>
+
         <article>
             <section>
                 <hgroup>
@@ -32,12 +38,6 @@ class ContactView extends BaseView
                      alt="Professional contact illustration showing communication and customer support"
                      class="banana-buoy-image-hero-landscape">
             </section>
-
-            <?php if ($submitted): ?>
-                <div class="banana-buoy-alert-info">
-                    <strong>Thank you!</strong> We've received your message and will respond shortly.
-                </div>
-            <?php endif; ?>
 
             <section>
                 <h3>📧 Email Us</h3>
@@ -56,7 +56,7 @@ class ContactView extends BaseView
 
             <section>
                 <h3>📬 Send Us a Message</h3>
-                <form method="POST" action="/banana-buoy/contact">
+                <form method="POST" action="/banana-buoy/contact/">
                     <label for="name">
                         Name
                         <input type="text" id="name" name="name" placeholder="Your name" required>

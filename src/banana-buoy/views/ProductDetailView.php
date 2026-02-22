@@ -21,7 +21,7 @@ class ProductDetailView extends BaseView
                     <h1>Product Not Found</h1>
                 </header>
                 <p>Sorry, the product you're looking for doesn't exist or has been removed.</p>
-                <a href="/banana-buoy/products" role="button">← Back to Products</a>
+                <a href="/banana-buoy/products/" role="button">← Back to Products</a>
             </article>
         <?php else:
             $imageUrl = htmlspecialchars($product['image_url']);
@@ -30,7 +30,7 @@ class ProductDetailView extends BaseView
             <article>
                 <nav aria-label="breadcrumb">
                     <ul>
-                        <li><a href="/banana-buoy/products">Products</a></li>
+                        <li><a href="/banana-buoy/products/">Products</a></li>
                         <li><?= htmlspecialchars($product['name']) ?></li>
                     </ul>
                 </nav>
@@ -82,7 +82,7 @@ class ProductDetailView extends BaseView
 
                             <div>
                                 <button type="button" class="banana-buoy-width-100p">Add to Cart (Coming Soon)</button>
-                                <a href="/banana-buoy/products" role="button" class="secondary banana-buoy-width-100p">
+                                <a href="/banana-buoy/products/" role="button" class="secondary banana-buoy-width-100p">
                                     ← Back to All Products
                                 </a>
                             </div>

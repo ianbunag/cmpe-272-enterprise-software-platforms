@@ -21,11 +21,19 @@ class NewsView extends BaseView
      *                        image_url: string,
      *                        alt_text: string
      *                      }>
+     *                    - subscribed (bool): Whether newsletter subscription was successful
      */
     protected function renderContent(array $data = []): void
     {
         $newsArticles = $data['news'] ?? [];
+        $subscribed = $data['subscribed'] ?? false;
         ?>
+        <?php if ($subscribed): ?>
+            <div class="banana-buoy-alert-info">
+                <strong>Thank you!</strong> You've successfully subscribed to our newsletter.
+            </div>
+        <?php endif; ?>
+
         <article>
             <section>
                 <hgroup>
@@ -49,7 +57,7 @@ class NewsView extends BaseView
                             $altText = htmlspecialchars($article['alt_text']);
                             $excerpt = substr($article['content'], 0, 200) . '...';
                             ?>
-                            <article class="banana-buoy-margin-0">
+                            <article>
                                 <div class="grid banana-buoy-grid-card-vertical-layout">
                                     <div>
                                         <img
@@ -62,7 +70,7 @@ class NewsView extends BaseView
                                     <div>
                                         <header>
                                             <h3>
-                                                <a href="/banana-buoy/news/<?= $article['id'] ?>">
+                                                <a href="/banana-buoy/news/<?= $article['id'] ?>/">
                                                     <?= htmlspecialchars($article['title']) ?>
                                                 </a>
                                             </h3>
@@ -76,7 +84,7 @@ class NewsView extends BaseView
                                         <p><?= htmlspecialchars($excerpt) ?></p>
 
                                         <footer>
-                                            <a href="/banana-buoy/news/<?= $article['id'] ?>">
+                                            <a href="/banana-buoy/news/<?= $article['id'] ?>/">
                                                 Read Full Article →
                                             </a>
                                         </footer>
@@ -94,8 +102,8 @@ class NewsView extends BaseView
                     Subscribe to our newsletter for the latest updates on hydrogen technology
                     innovations and nutritional research.
                 </p>
-                <form method="POST" class="grid">
-                    <input type="email" placeholder="your.email@example.com" required>
+                <form method="POST" action="/banana-buoy/news/" class="grid">
+                    <input type="email" name="email" placeholder="your.email@example.com" required>
                     <button type="submit">Subscribe</button>
                 </form>
             </section>

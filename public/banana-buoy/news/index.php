@@ -12,8 +12,23 @@ try {
     $newsModel = new NewsModel();
     $news = $newsModel->getAll();
 
+    $subscribed = false;
+
+    // Handle newsletter subscription form
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $email = filter_var($_POST['email'] ?? '', FILTER_VALIDATE_EMAIL);
+        if ($email) {
+            // Subscription successful
+            $subscribed = true;
+            error_log("Newsletter subscription: $email");
+        }
+    }
+
     $view = new NewsView();
-    $view->render(['news' => $news]);
+    $view->render([
+        'news' => $news,
+        'subscribed' => $subscribed
+    ]);
 } catch (Exception $e) {
     error_log("Error loading news: " . $e->getMessage());
 

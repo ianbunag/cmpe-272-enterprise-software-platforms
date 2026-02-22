@@ -1,0 +1,463 @@
+/* =============================================================================
+ * Banana Buoy Pico.css v2.1.1 Theme Customization
+ *
+ * Customizes Pico.css using CSS variables to create a cohesive theme centered
+ * on ocean, hydrogen technology, and sustainable practices.
+ *
+ * Color Palette:
+ * - Ocean Blue (#003D5C): Primary brand color, headers, buttons
+ * - Hydrogen White (#F8F9FA): Backgrounds and text
+ * - Sea Green (#00917B): Accent color for highlights
+ * - Neutral Gray (#6C757D): Secondary text and borders
+ *
+ * Font: Inter (Google Fonts) - Clean, modern, professional
+ * ============================================================================= */
+
+/* Import Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Define the Banana Buoy theme using CSS variables */
+:root {
+  /* ========== Typography ========== */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size: 1rem;
+  --font-weight: 400;
+  --line-height: 1.5;
+
+  /* ========== Color Palette - Ocean & Hydrogen Theme ========== */
+  /* Primary: Ocean Blue */
+  --contrast-color: #003d5c;
+  --contrast-focus-color: #00917b;
+
+  /* Background & Surface */
+  --background-color: #f8f9fa;
+  --surface-color: #ffffff;
+
+  /* Text Colors */
+  --color: #2c3e50;
+  --muted-color: #6c757d;
+
+  /* Border Colors */
+  --muted-border-color: #dee2e6;
+  --border-color: #dee2e6;
+
+  /* Button & Interactive */
+  --button-background-color: #003d5c;
+  --button-border-color: #003d5c;
+  --button-color: #ffffff;
+  --button-hover-background-color: #00917b;
+  --button-hover-border-color: #00917b;
+  --button-hover-color: #ffffff;
+  --button-focus-background-color: #00917b;
+  --button-focus-border-color: #00917b;
+  --button-focus-color: #ffffff;
+
+  /* Form Elements */
+  --form-element-background-color: #ffffff;
+  --form-element-border-color: #dee2e6;
+  --form-element-color: #2c3e50;
+  --form-element-placeholder-color: #6c757d;
+  --form-element-valid-border-color: #00917b;
+  --form-element-invalid-border-color: #c41c3b;
+  --form-element-focus-border-color: #003d5c;
+
+  /* Code Blocks */
+  --code-background-color: #f5f7fa;
+  --code-color: #e83e8c;
+
+  /* Tables */
+  --table-border-color: #dee2e6;
+
+  /* Links */
+  --link-color: #003d5c;
+  --link-visited-color: #6c5b7f;
+  --link-hover-color: #00917b;
+  --link-focus-color: #00917b;
+
+  /* Cards & Articles */
+  --card-background-color: #ffffff;
+  --card-border-color: #dee2e6;
+  --card-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+  /* Focus & Selection */
+  --form-element-focus-box-shadow: 0 0 0 3px rgba(0, 61, 92, 0.1);
+  --button-focus-box-shadow: 0 0 0 3px rgba(0, 145, 123, 0.1);
+
+  /* Spacing */
+  --spacing: 1rem;
+  --transition: all 0.2s ease-in-out;
+
+  /* Light mode only */
+  color-scheme: light;
+}
+
+/* ========== Typography ========== */
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  line-height: var(--line-height);
+  color: var(--color);
+  background-color: var(--background-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--contrast-color);
+  font-weight: 700;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 1rem; }
+
+strong, b {
+  font-weight: 600;
+  color: var(--contrast-color);
+}
+
+em, i {
+  font-style: italic;
+}
+
+mark {
+  background-color: rgba(0, 145, 123, 0.2);
+  color: var(--contrast-color);
+  padding: 0.125rem 0.25rem;
+  border-radius: 2px;
+}
+
+/* ========== Links ========== */
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+a:focus {
+  color: var(--link-focus-color);
+  outline: 2px solid var(--contrast-focus-color);
+  outline-offset: 2px;
+}
+
+/* ========== Buttons & Form Controls ========== */
+
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  background-color: var(--button-background-color);
+  border: 1px solid var(--button-border-color);
+  color: var(--button-color);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+  background-color: var(--button-hover-background-color);
+  border-color: var(--button-hover-border-color);
+  color: var(--button-hover-color);
+}
+
+button:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus {
+  background-color: var(--button-focus-background-color);
+  border-color: var(--button-focus-border-color);
+  color: var(--button-focus-color);
+  box-shadow: var(--button-focus-box-shadow);
+  outline: none;
+}
+
+/* ========== Form Elements ========== */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+  background-color: var(--form-element-background-color);
+  border: 1px solid var(--form-element-border-color);
+  color: var(--form-element-color);
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  transition: var(--transition);
+  width: 100%;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--form-element-placeholder-color);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--form-element-focus-border-color);
+  box-shadow: var(--form-element-focus-box-shadow);
+  outline: none;
+}
+
+input[type="text"]:valid,
+input[type="email"]:valid,
+input[type="password"]:valid,
+input[type="number"]:valid,
+textarea:valid {
+  border-color: var(--form-element-valid-border-color);
+}
+
+input[type="text"]:invalid,
+input[type="email"]:invalid,
+input[type="password"]:invalid,
+input[type="number"]:invalid,
+textarea:invalid {
+  border-color: var(--form-element-invalid-border-color);
+}
+
+/* ========== Tables ========== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+thead {
+  background-color: #f8f9fa;
+  color: var(--contrast-color);
+}
+
+th {
+  border: 1px solid var(--table-border-color);
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+td {
+  border: 1px solid var(--table-border-color);
+  padding: 0.75rem;
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgba(0, 145, 123, 0.02);
+}
+
+/* ========== Navigation ========== */
+
+nav {
+  background-color: var(--surface-color);
+  border-bottom: 2px solid var(--muted-border-color);
+  padding: 1rem 0;
+  margin-bottom: 1.5rem;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: var(--color);
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+nav a:hover {
+  color: var(--contrast-focus-color);
+}
+
+/* ========== Articles & Cards ========== */
+
+article {
+  background-color: var(--card-background-color);
+  border: 1px solid var(--card-border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: var(--card-box-shadow);
+  margin-bottom: 1.5rem;
+}
+
+article header {
+  border-bottom: 2px solid var(--card-border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+article header h1,
+article header h2,
+article header h3 {
+  margin: 0.5rem 0;
+}
+
+/* ========== Sections ========== */
+
+section {
+  margin-bottom: 2rem;
+}
+
+hgroup {
+  margin-bottom: 1.5rem;
+}
+
+hgroup h1,
+hgroup h2,
+hgroup h3 {
+  margin: 0.25rem 0;
+}
+
+/* ========== Code Blocks ========== */
+
+code {
+  background-color: var(--code-background-color);
+  color: var(--code-color);
+  padding: 0.2rem 0.4rem;
+  border-radius: 2px;
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  background-color: var(--code-background-color);
+  border: 1px solid var(--muted-border-color);
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+}
+
+/* ========== Footer ========== */
+
+footer {
+  border-top: 2px solid var(--muted-border-color);
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  color: var(--muted-color);
+  text-align: center;
+}
+
+/* ========== Containers ========== */
+
+.container,
+.container-fluid {
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.container {
+  padding-top: 1rem;
+  max-width: 960px;
+}
+
+.container-fluid {
+  width: 100%;
+}
+
+/* ========== Grid Layouts ========== */
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* ========== Image Styles ========== */
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========== Responsive Design ========== */
+
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  nav ul {
+    gap: 1rem;
+  }
+
+  article {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  h3 { font-size: 1rem; }
+
+  button,
+  input[type="button"],
+  input[type="submit"] {
+    width: 100%;
+  }
+}
+
+/* ========== Print Styles ========== */
+
+@media print {
+  body {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  button,
+  input[type="button"],
+  input[type="submit"] {
+    display: none;
+  }
+}
+

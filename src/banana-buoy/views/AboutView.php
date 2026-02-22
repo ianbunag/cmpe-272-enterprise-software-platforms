@@ -145,8 +145,8 @@ class AboutView extends BaseView
             </section>
 
             <div class="banana-buoy-text-align-center">
-                <a href="/banana-buoy/products" role="button">Explore Our Products</a>
-                <a href="/banana-buoy/news" role="button" class="secondary">Read Latest Research</a>
+                <a href="/banana-buoy/products/" role="button">Explore Our Products</a>
+                <a href="/banana-buoy/news/" role="button" class="secondary">Read Latest Research</a>
             </div>
         </article>
         <?php

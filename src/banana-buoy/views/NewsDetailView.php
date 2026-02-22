@@ -32,7 +32,7 @@ class NewsDetailView extends BaseView
                     <h1>Article Not Found</h1>
                 </header>
                 <p>Sorry, the article you're looking for doesn't exist or has been removed.</p>
-                <a href="/banana-buoy/news" role="button">← Back to News</a>
+                <a href="/banana-buoy/news/" role="button">← Back to News</a>
             </article>
         <?php else:
             $imageUrl = htmlspecialchars($article['image_url']);
@@ -41,7 +41,7 @@ class NewsDetailView extends BaseView
             <article>
                 <nav aria-label="breadcrumb">
                     <ul>
-                        <li><a href="/banana-buoy/news">News</a></li>
+                        <li><a href="/banana-buoy/news/">News</a></li>
                         <li><?= htmlspecialchars($article['title']) ?></li>
                     </ul>
                 </nav>
@@ -97,7 +97,7 @@ class NewsDetailView extends BaseView
                 <footer>
                     <div class="grid">
                         <div>
-                            <a href="/banana-buoy/news" role="button" class="secondary">
+                            <a href="/banana-buoy/news/" role="button" class="secondary">
                                 ← Back to All News
                             </a>
                         </div>

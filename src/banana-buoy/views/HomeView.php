@@ -23,7 +23,9 @@ class HomeView extends BaseView
             <img src="../../static/hero-home.svg"
                  alt="Hero image showing a hydrogen-powered banana transport vessel with sustainable technology"
                  class="banana-buoy-image-hero-landscape">
+        </section>
 
+        <section>
             <p>
                 Discover the world's finest bananas, transported fresh using cutting-edge
                 <strong>Seawater Hydrogen Electrolysis</strong> technology for refrigeration.
@@ -59,8 +61,8 @@ class HomeView extends BaseView
             </div>
 
             <div class="banana-buoy-text-align-center">
-                <a href="/banana-buoy/products" role="button">Explore Our Bananas</a>
-                <a href="/banana-buoy/news" role="button" class="secondary">Latest News</a>
+                <a href="/banana-buoy/products/" role="button">Explore Our Bananas</a>
+                <a href="/banana-buoy/news/" role="button" class="secondary">Latest News</a>
             </div>
         </section>
         <?php

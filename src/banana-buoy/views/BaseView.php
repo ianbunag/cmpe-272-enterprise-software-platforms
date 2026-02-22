@@ -29,27 +29,24 @@ abstract class BaseView
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title><?= htmlspecialchars($this->pageTitle ?: $this->title) ?></title>
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-            <link rel="stylesheet" href="../../static/banana-buoy/styles.css?v=9">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+            <link rel="stylesheet" href="/../../static/banana-buoy/pico.css">
+            <link rel="stylesheet" href="/../../static/banana-buoy/styles.css">
         </head>
         <body>
             <nav class="container-fluid">
-                <ul>
-                    <li>
-                        <a href="/banana-buoy/">
-                            <img src="../../static/banana-buoy/logo.png" class="banana-buoy-image-logo">
-                        </a>
-                    </li>
-                </ul>
+                <a href="/banana-buoy/">
+                    <img src="/../../static/banana-buoy/logo.png" class="banana-buoy-image-logo">
+                </a>
                 <ul>
                     <li><a href="/banana-buoy/">Home</a></li>
-                    <li><a href="/banana-buoy/about">About</a></li>
-                    <li><a href="/banana-buoy/products">Products</a></li>
-                    <li><a href="/banana-buoy/news">News</a></li>
-                    <li><a href="/banana-buoy/contact">Contact</a></li>
+                    <li><a href="/banana-buoy/about/">About</a></li>
+                    <li><a href="/banana-buoy/products/">Products</a></li>
+                    <li><a href="/banana-buoy/news/">News</a></li>
+                    <li><a href="/banana-buoy/contact/">Contact</a></li>
                 </ul>
             </nav>
-            <div class="container">
+            <main class="container">
         <?php
     }
 
@@ -64,7 +61,7 @@ abstract class BaseView
     protected function renderFooter(): void
     {
         ?>
-            </div>
+            </main>
             <footer class="container">
                 <p>
                     <small>

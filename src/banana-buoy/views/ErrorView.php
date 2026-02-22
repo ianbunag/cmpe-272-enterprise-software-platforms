@@ -63,7 +63,7 @@ class ErrorView extends BaseView
             <section>
                 <h3>Need Help?</h3>
                 <p>
-                    Visit our <a href="/banana-buoy/contact">Contact Page</a> to reach out, or
+                    Visit our <a href="/banana-buoy/contact/">Contact Page</a> to reach out, or
                     explore our <a href="/banana-buoy/">Homepage</a> to get started again.
                 </p>
             </section>

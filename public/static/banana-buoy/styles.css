@@ -1,22 +1,29 @@
-/* Banana Buoy Custom CSS Variables and Styles */
+/* ========== Grid Layouts ========== */
 
 .grid.banana-buoy-grid-card-horizontal-layout {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
 }
 
 .grid.banana-buoy-grid-card-vertical-layout {
     grid-template-columns: 300px 1fr;
-    gap: 1.5rem;
 }
+
+@media (max-width: 768px) {
+    .grid.banana-buoy-grid-card-vertical-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ========== Image Styles ========== */
 
 img.banana-buoy-image-logo {
     width: 300px;
     height: auto;
     object-fit: contain;
+    padding: 4px;
 }
 
-.banana-buoy-image-hero-landscape {
+img.banana-buoy-image-hero-landscape {
     width: 100%;
     height: auto;
     max-height: 400px;
@@ -35,21 +42,44 @@ img.banana-buoy-image-hero-square {
     width: 100%;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: var(--card-box-shadow);
 }
+
+@media (max-width: 768px) {
+    img.banana-buoy-image-logo {
+        width: 200px;
+    }
+}
+
+/* ========== Alert & Info Boxes ========== */
 
 .banana-buoy-alert-info {
-    background-color: #e0f7fa;
-    color: #00796b;
+    background-color: rgba(0, 145, 123, 0.1);
+    color: var(--contrast-color);
+    border-left: 4px solid var(--contrast-focus-color);
     padding: 1rem;
     border-radius: 4px;
+    margin: 1rem 0;
 }
 
+/* ========== Tags & Badges ========== */
+
 .banana-buoy-tag {
+    background-color: var(--contrast-focus-color);
+    color: #ffffff;
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
     font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    transition: var(--transition);
 }
+
+.banana-buoy-tag:hover {
+    background-color: var(--contrast-color);
+}
+
+/* ========== Text Utilities ========== */
 
 .banana-buoy-text-align-left {
     text-align: left;
@@ -67,8 +97,18 @@ img.banana-buoy-image-hero-square {
     width: 100%;
 }
 
+/* ========== Layout Utilities ========== */
+
 .banana-buoy-layout-space-between {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
+}
+
+@media (max-width: 480px) {
+    .banana-buoy-layout-space-between {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

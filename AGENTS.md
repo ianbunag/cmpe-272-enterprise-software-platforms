@@ -81,6 +81,39 @@ For arrays of keyed arrays:
   
 - All important information goes in the chat, not in separate files
 
+## Banana Buoy Theming
+
+### 1. Theme Philosophy
+- **Keep the theme as-is**: The Banana Buoy design uses Pico.css v2.1.1 with a customized ocean-hydrogen color palette
+- **Avoid custom styling**: Use existing Pico.css utilities and custom CSS variable classes in `pico.css` whenever possible
+- **Never modify theme without asking**: If custom styles or theme changes are needed, ask the developer first
+
+### 2. Available Styling Resources
+- **Pico.css v2**: Semantic HTML elements automatically styled (buttons, forms, tables, articles, etc.)
+- **CSS Variables** (`pico.css`): All colors and typography defined via `--contrast-color`, `--button-background-color`, etc.
+- **Custom Utility Classes** (`styles.css`):
+  - `.banana-buoy-grid-card-horizontal-layout` - Responsive card grid
+  - `.banana-buoy-grid-card-vertical-layout` - Two-column layout
+  - `.banana-buoy-image-hero-landscape` - Hero images
+  - `.banana-buoy-image-thumbnail` - Thumbnail images
+  - `.banana-buoy-image-hero-square` - Square images with shadow
+  - `.banana-buoy-alert-info` - Info boxes
+  - `.banana-buoy-tag` - Inline badges
+  - `.banana-buoy-text-align-*` - Text alignment
+  - `.banana-buoy-layout-space-between` - Flex spacing
+
+### 3. When Adding New Features
+- **Step 1**: Use semantic HTML first (Pico.css will style it automatically)
+- **Step 2**: Check if an existing utility class matches your needs
+- **Step 3**: Use CSS variables for any color or typography needs
+- **Step 4**: Only if none of the above work, ask the developer before adding custom styles
+
+### 4. Files to Reference
+- `public/static/banana-buoy/pico.css` - Theme customization, CSS variables
+- `public/static/banana-buoy/style.css` - All utility classes
+- `src/banana-buoy/views/BaseView.php` - Loads Pico.css v2, custom theme, and utility classes
+- All child views extend `BaseView` and inherit the theme automatically
+
 ---
 
 Last Updated: February 21, 2026
