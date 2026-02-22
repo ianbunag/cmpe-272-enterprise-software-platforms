@@ -40,6 +40,33 @@ This guide will walk you through setting up your hosting and web programming env
 ### 5. GCP Budget Alert
 - In the GCP Billing dashboard, create a budget alert for **$1.00** to monitor costs.
 
+### 6. Google Cloud Storage Setup
+This section sets up a Cloud Storage bucket to host your application assets. These assets will be served via the `IMAGE_HOST` URL.
+
+#### 6.1 Create a Cloud Storage Bucket
+In the GCP Console:
+
+1. Navigate to **Cloud Storage > Buckets**.
+2. Click **Create** and configure:
+   - **Name**: Choose a globally unique bucket name (e.g., `my-project-assets-2026`). Note this name as `BUCKET_NAME`.
+   - **Region**: Select `us-west1` (the same region as your VM).
+   - **Storage class**: Standard
+   - **Access control**: Uniform (recommended)
+   - Click **Create**.
+
+#### 6.2 Make Bucket Publicly Readable
+To serve images publicly, grant public read access:
+
+1. Go to your newly created bucket.
+2. Click the **Permissions** tab.
+3. Click **Grant Access** and add:
+   - **Principal**: `allUsers`
+   - **Role**: `Storage Object Viewer`
+   - Click **Save**.
+
+#### 6.3 Upload Assets to the Bucket
+Upload the contents of each directory from your local `assets/cloud-storage/` folder.
+
 ---
 
 ## Phase 2: Server Configuration (One-Time Setup)
@@ -91,7 +118,7 @@ cat > /var/lib/app/.env << EOF
 DB_USER=your_db_user
 DB_PASSWORD=your_secure_password
 REPO_URL=https://github.com/your-username/your-repo
-IMAGE_HOST=https://storage.googleapis.com/project-name
+IMAGE_HOST=https://storage.googleapis.com/bucket-name
 EOF
 chmod 660 /var/lib/app/.env
 ```
