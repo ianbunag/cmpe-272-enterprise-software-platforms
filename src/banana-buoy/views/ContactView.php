@@ -35,7 +35,7 @@ class ContactView extends BaseView
                     <h2>Get in Touch with Banana Buoy</h2>
                 </hgroup>
 
-                <img src="../../static/banana-buoy/hero-contact.webp?version=<?= $this->version ?>"
+                <img src="/static/banana-buoy/hero-contact.webp?version=<?= $this->version ?>"
                      alt="Professional contact illustration showing communication and customer support"
                      class="banana-buoy-image-hero-landscape">
             </section>

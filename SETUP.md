@@ -152,6 +152,7 @@ In your repository, go to **Settings > Secrets and variables > Actions** and add
 | `SSH_PRIVATE_KEY` | The private key from Phase 3, Step 1 |
 | `DB_USER` | The same `DB_USER` used in Phase 2, Step 2 |
 | `DB_PASSWORD` | The same `DB_PASSWORD` used in Phase 2, Step 2 |
+| `IMAGE_HOST` | The Cloud Storage bucket URL from Phase 1, Step 6 (e.g., `https://storage.googleapis.com/bucket-name`) |
 
 ---
 

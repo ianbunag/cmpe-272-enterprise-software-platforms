@@ -57,7 +57,6 @@ services:
       - ./src:/var/www/html/src:ro
       - ./migrations:/var/www/html/migrations:ro
       - ./phinx.php:/var/www/html/phinx.php:ro
-      - ./VERSION:/var/www/html/VERSION:ro
       - ./php-fpm/custom.ini:/usr/local/etc/php-fpm/conf.d/custom.ini:ro
     depends_on:
       mariadb:

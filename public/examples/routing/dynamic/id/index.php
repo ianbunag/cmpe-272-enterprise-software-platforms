@@ -10,6 +10,7 @@ $id = $_GET['id'] ?? 'id';
     <title>Root Dynamic Example - ID: <?= htmlspecialchars($id) ?></title>
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/static/pico.css">
 </head>
 <body>
     <main class="container">

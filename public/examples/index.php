@@ -68,6 +68,7 @@ $items = array_filter($items, function($item) {
     <title>Examples - CMPE-272</title>
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/static/pico.css">
 </head>
 <body>
     <main class="container">

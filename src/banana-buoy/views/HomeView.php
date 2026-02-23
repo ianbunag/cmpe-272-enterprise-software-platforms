@@ -21,7 +21,7 @@ class HomeView extends BaseView
                 <h2>Sustainable Banana Transport Powered by Hydrogen</h2>
             </hgroup>
 
-            <img src="../../static/banana-buoy/hero-home.webp?version=<?= $this->version ?>"
+            <img src="/static/banana-buoy/hero-home.webp?version=<?= $this->version ?>"
                  alt="Hero image showing a hydrogen-powered banana transport vessel with sustainable technology"
                  class="banana-buoy-image-hero-landscape">
         </section>

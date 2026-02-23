@@ -41,13 +41,14 @@ abstract class BaseView
             <title><?= htmlspecialchars($this->pageTitle ?: $this->title) ?></title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
             <link rel="icon" type="image/x-icon" href="/static/banana-buoy/favicon.ico">
-            <link rel="stylesheet" href="/../../static/banana-buoy/pico.css?version=<?= $this->version ?>">
-            <link rel="stylesheet" href="/../../static/banana-buoy/styles.css?version=<?= $this->version ?>">
+            <link rel="stylesheet" href="/static/pico.css?version=<?= $this->version ?>">
+            <link rel="stylesheet" href="/static/banana-buoy/pico.css?version=<?= $this->version ?>">
+            <link rel="stylesheet" href="/static/banana-buoy/styles.css?version=<?= $this->version ?>">
         </head>
         <body>
             <nav class="container-fluid">
                 <a href="/banana-buoy/">
-                    <img src="/../../static/banana-buoy/logo.png" class="banana-buoy-image-logo">
+                    <img src="/static/banana-buoy/logo.png" class="banana-buoy-image-logo">
                 </a>
                 <ul>
                     <li><a href="/banana-buoy/">Home</a></li>

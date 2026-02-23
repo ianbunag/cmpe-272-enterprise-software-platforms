@@ -22,7 +22,7 @@ class AboutView extends BaseView
                     <h2>Sustainable Banana Transport Through Clean Energy Innovation</h2>
                 </hgroup>
 
-                <img src="../../static/banana-buoy/hero-about.webp?version=<?= $this->version ?>"
+                <img src="/static/banana-buoy/hero-about.webp?version=<?= $this->version ?>"
                      alt="Illustration of seawater electrolysis process converting water to hydrogen fuel for sustainable transport"
                      class="banana-buoy-image-hero-landscape">
             </section>
