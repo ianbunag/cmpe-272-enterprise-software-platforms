@@ -1,24 +1,63 @@
 <?php
-// Scan the lab-activities directory for subdirectories
+// Scan the lab-activities directory for subdirectories and files
 $baseDir = __DIR__;
-$directories = [];
+$items = [];
 
-if ($handle = opendir($baseDir)) {
-    while (false !== ($entry = readdir($handle))) {
-        $fullPath = $baseDir . '/' . $entry;
-        // Skip hidden files, current/parent directory references, and non-directories
-        if ($entry !== '.' && $entry !== '..' && $entry[0] !== '.' && is_dir($fullPath)) {
-            // Check if index.php or index.html exists
-            $hasIndex = file_exists($fullPath . '/index.php') || file_exists($fullPath . '/index.html');
-            $directories[] = [
-                'name' => $entry,
-                'path' => '/lab-activities/' . $entry,
-                'hasIndex' => $hasIndex,
-            ];
+function scanDirectory($dir, $relativePath = '') {
+    $items = [];
+
+    if ($handle = opendir($dir)) {
+        while (false !== ($entry = readdir($handle))) {
+            $fullPath = $dir . '/' . $entry;
+            $itemPath = $relativePath . '/' . $entry;
+
+            // Skip hidden files, current/parent directory references
+            if ($entry !== '.' && $entry !== '..' && $entry[0] !== '.') {
+                if (is_dir($fullPath)) {
+                    // Check if index.php or index.html exists
+                    $hasIndexPhp = file_exists($fullPath . '/index.php');
+                    $hasIndexHtml = file_exists($fullPath . '/index.html');
+                    $hasIndex = $hasIndexPhp || $hasIndexHtml;
+
+                    if ($hasIndex) {
+                        $items[] = [
+                            'type' => 'directory',
+                            'name' => $entry,
+                            'path' => '/lab-activities' . $itemPath,
+                            'details' => $hasIndexPhp ? 'PHP Index' : 'HTML Index'
+                        ];
+                    }
+
+                    // Recursively scan subdirectories
+                    $subitems = scanDirectory($fullPath, $itemPath);
+                    $items = array_merge($items, $subitems);
+                } elseif (preg_match('/\.(php|html)$/', $entry) && $entry !== 'index.php' && $entry !== 'index.html') {
+                    // It's a PHP or HTML file (but not an index file)
+                    $extension = pathinfo($entry, PATHINFO_EXTENSION);
+                    $directory = pathinfo($itemPath, PATHINFO_DIRNAME);
+                    $nameWithoutExt = pathinfo($entry, PATHINFO_FILENAME);
+
+                    $items[] = [
+                        'type' => 'file',
+                        'name' => $nameWithoutExt,
+                        'path' => '/lab-activities' . $directory . '/' . $nameWithoutExt,
+                        'details' => strtoupper($extension) . ' File'
+                    ];
+                }
+            }
         }
+        closedir($handle);
     }
-    closedir($handle);
+
+    return $items;
 }
+
+$items = scanDirectory($baseDir);
+
+// Sort items by path for better organization
+usort($items, function($a, $b) {
+    return strcmp($a['path'], $b['path']);
+});
 
 ?>
 <!DOCTYPE html>
@@ -41,35 +80,37 @@ if ($handle = opendir($baseDir)) {
                 </header>
 
                 <section>
-                    <h2>Available Lab Activities</h2>
-                    <?php if (empty($directories)): ?>
+                    <h2>Available Activities & Files</h2>
+                    <?php if (empty($items)): ?>
                         <p><em>No lab activities found.</em></p>
                     <?php else: ?>
                         <table>
                             <thead>
                                 <tr>
+                                    <th>Type</th>
+                                    <th>Name</th>
                                     <th>Path</th>
-                                    <th>Status</th>
+                                    <th>Details</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($directories as $dir): ?>
+                                <?php foreach ($items as $item): ?>
                                     <tr>
-                                        <td><code><?= htmlspecialchars($dir['path']) ?></code></td>
                                         <td>
-                                            <?php if ($dir['hasIndex']): ?>
-                                                <span style="color: #2ecc71;">✅ Available</span>
-                                            <?php else: ?>
-                                                <span style="color: #e74c3c;">❌ No Index</span>
-                                            <?php endif; ?>
+                                            <?= $item['type'] === 'directory' ? '📁' : '📄' ?>
                                         </td>
                                         <td>
-                                            <?php if ($dir['hasIndex']): ?>
-                                                <a href="<?= htmlspecialchars($dir['path']) ?>" role="button">View →</a>
-                                            <?php else: ?>
-                                                <button disabled>No Index</button>
-                                            <?php endif; ?>
+                                            <strong><?= htmlspecialchars($item['name']) ?></strong>
+                                        </td>
+                                        <td>
+                                            <code><?= htmlspecialchars($item['path']) ?></code>
+                                        </td>
+                                        <td>
+                                            <small><?= htmlspecialchars($item['details']) ?></small>
+                                        </td>
+                                        <td>
+                                            <a href="<?= htmlspecialchars($item['path']) ?>" role="button" class="outline">Open →</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -91,3 +132,5 @@ if ($handle = opendir($baseDir)) {
         </main>
     </body>
 </html>
+
+

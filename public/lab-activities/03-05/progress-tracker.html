@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            background-color: #3d8b40;
+        }
+
+        .progress-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        svg {
+            width: 100%;
+            max-width: 300px;
+            height: 40px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Progress Tracker</h1>
+
+        <div class="input-group">
+            <label for="progressInput">Enter Progress Value (0-100):</label>
+            <input type="number" id="progressInput" min="0" max="100" value="0">
+        </div>
+
+        <button id="saveBtn">Save</button>
+
+        <div class="progress-text" id="progressText">Progress: 0%</div>
+
+        <svg id="progressBar" viewBox="0 0 300 40" xmlns="http://www.w3.org/2000/svg">
+            <!-- Background rectangle -->
+            <rect x="0" y="0" width="300" height="40" fill="#e0e0e0" rx="4"></rect>
+            <!-- Filled rectangle (progress) -->
+            <rect id="progressFill" x="0" y="0" width="0" height="40" fill="#4CAF50" rx="4"></rect>
+        </svg>
+    </div>
+
+    <script>
+        // Get references to DOM elements
+        const progressInput = document.getElementById('progressInput');
+        const saveBtn = document.getElementById('saveBtn');
+        const progressText = document.getElementById('progressText');
+        const progressFill = document.getElementById('progressFill');
+
+        // Initialize progress from LocalStorage on page load
+        function initializeProgress() {
+            const savedProgress = localStorage.getItem('progress');
+            if (savedProgress !== null) {
+                const progress = parseInt(savedProgress, 10);
+                progressInput.value = progress;
+                updateProgress(progress);
+            }
+        }
+
+        // Update the progress text and progress bar
+        function updateProgress(value) {
+            // Ensure value is within 0-100 range
+            const progress = Math.max(0, Math.min(100, parseInt(value, 10) || 0));
+
+            // Update the text display
+            progressText.textContent = `Progress: ${progress}%`;
+
+            // Update the SVG progress bar (width = percentage of 300px)
+            const fillWidth = (progress / 100) * 300;
+            progressFill.setAttribute('width', fillWidth);
+        }
+
+        // Save progress to LocalStorage and update display
+        saveBtn.addEventListener('click', function() {
+            const value = progressInput.value;
+
+            // Validate input
+            if (value === '') {
+                alert('Please enter a value');
+                return;
+            }
+
+            const progress = parseInt(value, 10);
+
+            if (isNaN(progress) || progress < 0 || progress > 100) {
+                alert('Please enter a value between 0 and 100');
+                return;
+            }
+
+            // Save to LocalStorage
+            localStorage.setItem('progress', progress);
+
+            // Update display
+            updateProgress(progress);
+        });
+
+        // Allow Enter key to save
+        progressInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                saveBtn.click();
+            }
+        });
+
+        // Initialize on page load
+        initializeProgress();
+    </script>
+</body>
+</html>
+
