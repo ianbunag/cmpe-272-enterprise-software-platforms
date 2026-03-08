@@ -2,6 +2,11 @@
 
 This guide will walk you through setting up your hosting and web programming environment from scratch. Following these steps in order will result in a fully functional, publicly accessible application with automated CI/CD.
 
+The application requires the following components:
+- Google Cloud Platform (GCP) to host the application.
+- Cloudflare for DNS management, SSL, and CDN.
+- GitHub to host the source code and run CI/CD automation.
+
 ## Phase 1: Infrastructure (Manual GCP Setup)
 
 ### 1. GCP VM Setup
@@ -18,9 +23,12 @@ This guide will walk you through setting up your hosting and web programming env
 ### 3. Firewall Rules
 - Edit your VM instance.
 - Check **Allow HTTP traffic**.
-- This assigns the `http-server` and `https-server` network tags.
+- This assigns the `http-server` network tag.
 
-### 4. Cloudflare DNS & SSL
+### 4. GCP Budget Alert
+- In the GCP Billing dashboard, create a budget alert for **$1.00** to monitor costs.
+
+### 5. Cloudflare DNS & SSL
 - In your Cloudflare dashboard, add an **A record** pointing your domain to the `VM_HOST` IP.
 - Enable the Cloudflare proxy (orange cloud **ON**).
 - Create a **Configuration Rule** to apply Flexible SSL only to this record:
@@ -37,35 +45,60 @@ This guide will walk you through setting up your hosting and web programming env
         - Search for **SSL** and set it to **Flexible**.
     - Click **Save**.
 
-### 5. GCP Budget Alert
-- In the GCP Billing dashboard, create a budget alert for **$1.00** to monitor costs.
-
-### 6. Google Cloud Storage Setup
-This section sets up a Cloud Storage bucket to host your application assets. These assets will be served via the `IMAGE_HOST` URL.
+### 6. Cloudflare CDN
+This section sets up a an R2 object storage bucket to host your application assets. These assets will be served via the `IMAGE_HOST` URL.
 
 #### 6.1 Create a Cloud Storage Bucket
-In the GCP Console:
+In the Cloudflare dashboard:
 
-1. Navigate to **Cloud Storage > Buckets**.
-2. Click **Create** and configure:
-   - **Name**: Choose a globally unique bucket name (e.g., `my-project-assets-2026`). Note this name as `BUCKET_NAME`.
-   - **Region**: Select `us-west1` (the same region as your VM).
-   - **Storage class**: Standard
-   - **Access control**: Uniform (recommended)
-   - Click **Create**.
+1. Navigate to **Storage & databases > Overview**.
+2. Click **Create bucket** and configure:
+   - **Name**: Choose any name.
+   - **Location**: Automatic.
+   - **Default Storage Class**: Standard
+   - Click **Create bucket**.
 
 #### 6.2 Make Bucket Publicly Readable
-To serve images publicly, grant public read access:
+To serve images publicly, create a Custom Domain:
 
 1. Go to your newly created bucket.
-2. Click the **Permissions** tab.
-3. Click **Grant Access** and add:
-   - **Principal**: `allUsers`
-   - **Role**: `Storage Object Viewer`
-   - Click **Save**.
+2. Click the **Settings** tab.
+3. Under **Custom Domains**, click **Add**
+   - Enter your domain (e.g., `cdn.yourdomain.com`).
 
 #### 6.3 Upload Assets to the Bucket
-Upload the contents of each directory from your local `assets/cloud-storage/` folder.
+Upload the contents of each directory from your local `assets/cdn/` folder.
+
+#### 6.5 Secure the Bucket
+
+##### 6.5.1 Ensure Hotlink Protection is Enabled
+1. In the Cloudflare dashboard, navigate to **Domains > Security > Settings > Hotlink Protection**.
+2. Ensure that it is toggled **ON**.
+
+##### 6.5.2 Ensure DDOS Protection is Enabled
+1. In the Cloudflare dashboard, navigate to **Domains > Security > Security Rules > Network-layer and SSL/TLS DDoS attack > DDoS Mitigation**.
+2. Ensure that **SSL/TLS DDoS attack protection** is toggled **ON**.
+3. Ensure that **Network-layer DDoS attack protection** is toggled **ON**.
+
+##### 6.5.3 Cache assets
+1. In the Cloudflare dashboard, navigate to **Domains > Caching > Cache Rules**.
+2. Click **Create rule** and configure:
+   - **Rule name**: Your chosen name.
+   - **If incoming requests match…**:
+     - Select `Custom filter expression`
+   - **When incoming requests match…**:
+     - Field: `Hostname`
+     - Operator: `equals`
+     - Value: `cdn.yourdomain.com`
+   - **Cache eligibility**:
+     - Select `Eligible for cache`
+   - **Edge TTL**:
+     - Select `Ignore cache-control header and use this TTL`
+     - Set `Input time-to-live (TTL) (required)` to `14 days`
+   - **Browser TTL**:
+     - Select `Override origin and use this TTL`
+     - Set `Input time-to-live (TTL) (required)` to `7 days`
+   - Click **Save**.
 
 ---
 
@@ -145,14 +178,14 @@ ssh-keygen -t ed25519 -f ./DEPLOY_KEY -C "VM_USERNAME"
 ### 2. Add GitHub Secrets
 In your repository, go to **Settings > Secrets and variables > Actions** and add:
 
-| Secret | Value |
-|--------|-------|
-| `VM_HOST` | The Static IP from Phase 1 |
-| `VM_USERNAME` | The username from Phase 2, Step 3 |
-| `SSH_PRIVATE_KEY` | The private key from Phase 3, Step 1 |
-| `DB_USER` | The same `DB_USER` used in Phase 2, Step 2 |
-| `DB_PASSWORD` | The same `DB_PASSWORD` used in Phase 2, Step 2 |
-| `IMAGE_HOST` | The Cloud Storage bucket URL from Phase 1, Step 6 (e.g., `https://storage.googleapis.com/bucket-name`) |
+| Secret | Value                                                                 |
+|--------|-----------------------------------------------------------------------|
+| `VM_HOST` | The Static IP from Phase 1                                            |
+| `VM_USERNAME` | The username from Phase 2, Step 3                                     |
+| `SSH_PRIVATE_KEY` | The private key from Phase 3, Step 1                                  |
+| `DB_USER` | The same `DB_USER` used in Phase 2, Step 2                            |
+| `DB_PASSWORD` | The same `DB_PASSWORD` used in Phase 2, Step 2                        |
+| `IMAGE_HOST` | The CDN URL from Phase 1, Step 6 (e.g., `https://cdn.yourdomain.com`) |
 
 ---
 
@@ -169,3 +202,11 @@ git push origin 1.0.0
 ```
 
 Once the GitHub Action completes, your site will be live at your domain.
+
+## Phase 5: Maintenance and Updates
+
+### Recreating the application
+
+1. SSH into the VM.
+2. Run `bash /var/lib/app/docker-compose down -v`
+3. Redeploy by pushing a new tag.
