@@ -152,6 +152,7 @@ DB_USER=your_db_user
 DB_PASSWORD=your_secure_password
 REPO_URL=https://github.com/your-username/your-repo
 IMAGE_HOST=https://storage.googleapis.com/bucket-name
+APP_SECRET=your_random_secret_key_min_32_chars
 EOF
 chmod 660 /var/lib/app/.env
 ```
@@ -186,6 +187,7 @@ In your repository, go to **Settings > Secrets and variables > Actions** and add
 | `DB_USER` | The same `DB_USER` used in Phase 2, Step 2                            |
 | `DB_PASSWORD` | The same `DB_PASSWORD` used in Phase 2, Step 2                        |
 | `IMAGE_HOST` | The CDN URL from Phase 1, Step 6 (e.g., `https://cdn.yourdomain.com`) |
+| `APP_SECRET` | A random string of at least 32 characters for token signing (use `openssl rand -base64 32` to generate) |
 
 ---
 
