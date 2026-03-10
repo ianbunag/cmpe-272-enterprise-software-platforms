@@ -48,6 +48,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - REPO_URL=${REPO_URL}
       - IMAGE_HOST=${IMAGE_HOST}
+      - APP_SECRET=${APP_SECRET}
     build:
       context: .
       dockerfile: php-fpm/Dockerfile
@@ -56,6 +57,7 @@ services:
       - ./public:/var/www/html/public:ro
       - ./src:/var/www/html/src:ro
       - ./migrations:/var/www/html/migrations:ro
+      - ./vendor:/var/www/html/vendor:ro
       - ./phinx.php:/var/www/html/phinx.php:ro
       - ./php-fpm/custom.ini:/usr/local/etc/php-fpm/conf.d/custom.ini:ro
     depends_on:
