@@ -2,6 +2,7 @@
 
 // Clear the authentication cookie
 $cookieName = 'banana_buoy_auth';
+$secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 setcookie(
     $cookieName,
     '',
@@ -9,7 +10,8 @@ setcookie(
         'expires' => time() - 3600,
         'path' => '/banana-buoy/secure/',
         'httponly' => true,
-        'samesite' => 'Strict'
+        'samesite' => 'Strict',
+        'secure' => $secure
     ]
 );
 

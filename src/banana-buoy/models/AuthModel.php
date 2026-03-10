@@ -2,6 +2,7 @@
 
 namespace BananaBuoy\Models;
 
+use Exception;
 use PDO;
 use PDOException;
 
@@ -16,7 +17,10 @@ class AuthModel
     {
         $database = new DatabaseModel();
         $this->db = $database->getConnection();
-        $this->appSecret = getenv('APP_SECRET') ?: 'default-insecure-secret';
+        $this->appSecret = getenv('APP_SECRET');
+        if (!$this->appSecret) {
+            throw new Exception('APP_SECRET environment variable is not set');
+        }
     }
 
     /**
@@ -92,7 +96,7 @@ class AuthModel
                 return null;
             }
 
-            $parts = explode('::', $decoded);
+            $parts = explode('::', $decoded, 2);
             if (count($parts) !== 2) {
                 return null;
             }

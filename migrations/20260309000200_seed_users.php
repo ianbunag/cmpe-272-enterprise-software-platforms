@@ -43,7 +43,7 @@ final class SeedUsers extends AbstractMigration
      */
     public function down(): void
     {
-        $this->execute("DELETE FROM users");
+        $this->execute("DELETE FROM users WHERE username IN ('admin', 'mary_smith', 'john_wang', 'alex_bington', 'jane_doe', 'mike_johnson')");
     }
 }
 
