@@ -17,8 +17,30 @@ public/
 │       └── dynamic/id/   # Dynamic routing example
 │           ├── index.php
 │           └── products.php
+├── banana-buoy/          # Banana Buoy website
+│   ├── secure/           # Secure admin section (requires authentication)
+│   │   ├── index.php     # User list (admin only)
+│   │   ├── login.php     # Login form
+│   │   └── logout.php    # Logout handler
+│   └── ...other pages
 └── static/               # Static assets (images, icons, CSS)
     └── favicon.ico
+src/
+├── banana-buoy/
+│   ├── models/
+│   │   ├── AuthModel.php      # Authentication and token management
+│   │   ├── UserModel.php      # User data retrieval
+│   │   ├── ProductModel.php
+│   │   ├── NewsModel.php
+│   │   ├── DatabaseModel.php
+│   │   └── ContactsModel.php
+│   └── views/
+│       ├── LoginView.php      # Login form page
+│       ├── SecureView.php     # User list page (admin section)
+│       ├── AccessDeniedView.php # Access denied message
+│       └── ...other views
+└── models/
+    └── VersionModel.php
 migrations/                # Database schema migrations (Phinx)
 nginx/                     # Nginx configuration
 php-fpm/                   # PHP-FPM configuration
@@ -224,8 +246,54 @@ Variables are stored in `.env` file. Common variables:
 - `DB_PASSWORD` - Database password
 - `REPO_URL` - GitHub repository URL
 - `IMAGE_HOST` - Image CDN
+- `APP_SECRET` - Secret key for signing authentication tokens (must be set for secure section)
 
 Load with `getenv('VARIABLE_NAME')`.
+
+## Authentication System
+
+### Overview
+The secure section (`/banana-buoy/secure/`) uses stateless HMAC-SHA256 signed cookie tokens for authentication. No external libraries are used. Users must have an `admin` role to access the secure section.
+
+### How It Works
+1. **User submits credentials** to `/banana-buoy/secure/login` via POST
+2. **Server authenticates** using `password_verify()` against bcrypt hashes in the `users` table
+3. **Token generation**: Creates a JSON payload `{user_id, role, exp}` and signs it with HMAC-SHA256 using `APP_SECRET`
+4. **Token storage**: Stored in a secure HttpOnly cookie with `SameSite=Strict`
+5. **Token validation**: On each request to `/banana-buoy/secure/`, the token is validated:
+   - Signature verification (HMAC must match)
+   - Expiry check (must not be older than 1 hour)
+6. **Role-based access**: If token is valid but role is not `admin`, user sees access denied message
+7. **Logout**: Clears the cookie by setting expiry to the past
+
+### Implementation Details
+
+**Models:**
+- `AuthModel.php` - `authenticate($username, $password)`, `generateToken($user_id, $role)`, `validateToken($token)`
+- `UserModel.php` - `getAll()` returns all users for the admin dashboard
+
+**Views:**
+- `LoginView.php` - Login form
+- `SecureView.php` - User list (admin only)
+- `AccessDeniedView.php` - Access denied message for non-admin authenticated users
+
+**Database:**
+- `users` table: `id`, `username` (unique), `display_name`, `email`, `password_hash` (bcrypt), `role` (enum: `user`/`admin`), `created_at`
+
+**Cookie Settings:**
+- Name: `banana_buoy_auth`
+- Path: `/banana-buoy/secure/`
+- HttpOnly: `true` (prevents XSS token theft)
+- SameSite: `Strict` (prevents CSRF)
+- Secure: `true` in production, `false` in development
+- Expiry: 1 hour from generation
+
+### Security Notes
+- Passwords are hashed with PHP's `password_hash(..., PASSWORD_BCRYPT)`, NOT reversible
+- Tokens are signed with HMAC-SHA256 using the `APP_SECRET` env var (must be unique per deployment)
+- Failed login attempts show generic "Invalid username or password" message (no username enumeration)
+- Token is validated on every request; expiry is the only revocation mechanism (stateless)
+- No external authentication libraries are used; all functionality is built-in PHP
 
 ## Development vs Production
 

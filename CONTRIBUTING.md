@@ -131,6 +131,16 @@ if (strlen($_POST['password']) < 8) {
 - Document all required variables in `.env.example`
 - Validate environment variables at startup
 
+### Authentication & Session Management
+**When implementing authentication features:**
+- **Password hashing:** Always use `password_hash($password, PASSWORD_BCRYPT)` for storage. Never store plaintext passwords.
+- **Password verification:** Use `password_verify($input, $hash)` for comparison. Never use string comparison.
+- **Session tokens:** Use HMAC-SHA256 signing for token integrity. Validate signatures and expiry on every authenticated request.
+- **Cookie security:** Set `HttpOnly` (prevents XSS token theft), `SameSite=Strict` (prevents CSRF), and `Secure` (HTTPS only in production).
+- **Error messages:** Show generic "Invalid username or password" on failed login (prevents username enumeration attacks).
+- **Role-based access:** Check user role on every protected request; never rely on client-side role indicators.
+- **Token expiry:** Use short expiry times (e.g., 1 hour). Implement token revocation via expiry or token blacklist if needed.
+
 ## Routing
 
 Routing is handled by Nginx with a fallback mechanism. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#routing-system) for detailed routing documentation.
@@ -139,7 +149,7 @@ Routing is handled by Nginx with a fallback mechanism. See [docs/ARCHITECTURE.md
 - Static files: Served from `/static/` directory
 - PHP files: Can be accessed as `/path/to/file` (without `.php` extension)
 - Directory indexes: `index.php` or `index.html` files are served automatically
-- Dynamic routes: Defined in `nginx/default.conf` using `map` directives for scalability
+- Dynamic routes: Defined in `nginx/default.conf` using `map` directives for scalability (for routes with query parameters)
 - Trailing slashes: Both `/path` and `/path/` are supported
 
 ## Database Migrations

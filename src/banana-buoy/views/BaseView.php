@@ -56,6 +56,7 @@ abstract class BaseView
                     <li><a href="/banana-buoy/products/">Products</a></li>
                     <li><a href="/banana-buoy/news/">News</a></li>
                     <li><a href="/banana-buoy/contact/">Contact</a></li>
+                    <li><a href="/banana-buoy/secure/">Secure</a></li>
                 </ul>
             </nav>
             <main class="container">
