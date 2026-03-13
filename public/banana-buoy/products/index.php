@@ -11,9 +11,15 @@ use BananaBuoy\Views\ErrorView;
 try {
     $productModel = new ProductModel();
     $products = $productModel->getAll();
+    $recentProducts = $productModel->getRecentProducts();
+    $popularProducts = $productModel->getMostVisitedProducts();
 
     $view = new ProductsView();
-    $view->render(['products' => $products]);
+    $view->render([
+        'products' => $products,
+        'recentProducts' => $recentProducts,
+        'popularProducts' => $popularProducts
+    ]);
 } catch (Exception $e) {
     error_log("Error loading products: " . $e->getMessage());
 
