@@ -24,6 +24,8 @@ try {
     $view = new ProductDetailView();
 
     if ($product) {
+        // Track this product view for recently viewed and popular tracking
+        $productModel->trackProductView((int)$productId);
         $view->render(['product' => $product]);
     } else {
         $view->render(['product' => null]);
