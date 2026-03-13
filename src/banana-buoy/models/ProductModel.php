@@ -13,8 +13,10 @@ class ProductModel
     private const RECENT_PRODUCTS_COOKIE = 'recent_products';
     private const PRODUCT_VISITS_COOKIE = 'product_visits';
     private const MAX_RECENT_PRODUCTS = 5;
+    private const MAX_VISIT_ENTRIES = 50; // Max number of products tracked in visits cookie
     private const COOKIE_LIFETIME = 2592000; // 30 days in seconds
     private const MAX_COOKIE_SIZE = 4000; // Typical max cookie size is ~4096 bytes
+    private const COOKIE_PATH = '/banana-buoy/';
 
     public function __construct()
     {
@@ -79,13 +81,21 @@ class ProductModel
     }
 
     /**
+     * Determine if the current connection is HTTPS.
+     */
+    private function isSecureConnection(): bool
+    {
+        return !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    }
+
+    /**
      * Track a product view by updating cookies.
      * Uses FIFO for recent products: removes ID if exists, appends to end, caps at 5.
      * Increments visit count in separate cookie.
-     * Validates input ID and cookie sizes before updating.
+     * Validates cookie sizes before updating.
      *
      * @param int $id Product ID to track
-     * @return bool True if tracking was successful, false if ID was invalid
+     * @return bool True if tracking was successful, false if a cookie size limit was exceeded
      */
     public function trackProductView(int $id): bool
     {
@@ -115,16 +125,28 @@ class ProductModel
         }
 
         // Save recent products cookie
+        $secure = $this->isSecureConnection();
         setcookie(
             self::RECENT_PRODUCTS_COOKIE,
             $recentCookieValue,
-            time() + self::COOKIE_LIFETIME,
-            '/'
+            [
+                'expires' => time() + self::COOKIE_LIFETIME,
+                'path' => self::COOKIE_PATH,
+                'httponly' => true,
+                'samesite' => 'Strict',
+                'secure' => $secure,
+            ]
         );
 
         // Update visit counts
         $visits = $this->getVisitCounts();
         $visits[$id] = ($visits[$id] ?? 0) + 1;
+
+        // Prune to top MAX_VISIT_ENTRIES by count to keep cookie size stable
+        if (count($visits) > self::MAX_VISIT_ENTRIES) {
+            arsort($visits, SORT_NUMERIC);
+            $visits = array_slice($visits, 0, self::MAX_VISIT_ENTRIES, true);
+        }
 
         // Prepare cookie value
         $visitsCookieValue = json_encode($visits);
@@ -140,8 +162,13 @@ class ProductModel
         setcookie(
             self::PRODUCT_VISITS_COOKIE,
             $visitsCookieValue,
-            time() + self::COOKIE_LIFETIME,
-            '/'
+            [
+                'expires' => time() + self::COOKIE_LIFETIME,
+                'path' => self::COOKIE_PATH,
+                'httponly' => true,
+                'samesite' => 'Strict',
+                'secure' => $secure,
+            ]
         );
 
         return true;
@@ -193,7 +220,12 @@ class ProductModel
         }
 
         $data = json_decode($cookie, true);
-        return is_array($data) ? array_map('intval', $data) : [];
+        if (!is_array($data)) {
+            error_log("Product visits cookie contained invalid JSON; resetting");
+            $this->resetVisitsCookie();
+            return [];
+        }
+        return array_map('intval', $data);
     }
 
     /**
@@ -201,13 +233,39 @@ class ProductModel
      */
     private function resetVisitsCookie(): void
     {
+        $secure = $this->isSecureConnection();
         setcookie(
             self::PRODUCT_VISITS_COOKIE,
             '',
-            time() - 3600,
-            '/'
+            [
+                'expires' => time() - 3600,
+                'path' => self::COOKIE_PATH,
+                'httponly' => true,
+                'samesite' => 'Strict',
+                'secure' => $secure,
+            ]
         );
         unset($_COOKIE[self::PRODUCT_VISITS_COOKIE]);
+    }
+
+    /**
+     * Reset the recent products cookie (clear it).
+     */
+    private function resetRecentProductsCookie(): void
+    {
+        $secure = $this->isSecureConnection();
+        setcookie(
+            self::RECENT_PRODUCTS_COOKIE,
+            '',
+            [
+                'expires' => time() - 3600,
+                'path' => self::COOKIE_PATH,
+                'httponly' => true,
+                'samesite' => 'Strict',
+                'secure' => $secure,
+            ]
+        );
+        unset($_COOKIE[self::RECENT_PRODUCTS_COOKIE]);
     }
 
     /**
@@ -229,6 +287,10 @@ class ProductModel
         if (empty($ids)) {
             return [];
         }
+
+        // Cap to MAX_RECENT_PRODUCTS, keeping the newest (last) entries in case
+        // the cookie was tampered to contain more IDs than allowed
+        $ids = array_slice($ids, -self::MAX_RECENT_PRODUCTS);
 
         // Reverse to show newest first
         $ids = array_reverse($ids);
