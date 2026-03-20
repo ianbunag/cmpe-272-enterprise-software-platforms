@@ -49,6 +49,7 @@ services:
       - REPO_URL=${REPO_URL}
       - IMAGE_HOST=${IMAGE_HOST}
       - APP_SECRET=${APP_SECRET}
+      - PARTNER_URLS=${PARTNER_URLS}
     build:
       context: .
       dockerfile: php-fpm/Dockerfile

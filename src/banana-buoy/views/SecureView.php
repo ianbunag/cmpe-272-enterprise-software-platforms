@@ -30,6 +30,10 @@ class SecureView extends BaseView
      *                        role: string,
      *                        created_at: string
      *                      }|null
+     *                    - external_users: array<int, array{
+     *                        name: string,
+     *                        partner_url: string
+     *                      }>
      */
     protected function renderContent(array $data = []): void
     {
@@ -97,6 +101,38 @@ class SecureView extends BaseView
                 </div>
             </section>
         </article>
+
+        <?php if (!empty($data['external_users'])): ?>
+        <article>
+            <section>
+                <hgroup>
+                    <h2>Partner Users</h2>
+                </hgroup>
+                <p>Users from partner websites:</p>
+            </section>
+
+            <section>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="min-width: 140px;">Display Name</th>
+                                <th style="min-width: 180px;">Partner Website</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($data['external_users'] as $user): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars(is_array($user) && isset($user['name']) ? $user['name'] : (is_string($user) ? $user : 'Invalid user data')) ?></td>
+                                    <td><?= htmlspecialchars(is_array($user) && isset($user['partner_url']) ? $user['partner_url'] : 'Unknown') ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </article>
+        <?php endif; ?>
         <?php
     }
 }
