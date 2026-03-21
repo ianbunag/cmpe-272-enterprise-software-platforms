@@ -55,10 +55,13 @@ services:
       dockerfile: php-fpm/Dockerfile
       target: development
     volumes:
+      - ./vendor:/var/www/html/vendor
+      - ./composer.json:/var/www/html/composer.json
+      - ./composer.lock:/var/www/html/composer.lock
+
       - ./public:/var/www/html/public:ro
       - ./src:/var/www/html/src:ro
       - ./migrations:/var/www/html/migrations:ro
-      - ./vendor:/var/www/html/vendor:ro
       - ./phinx.php:/var/www/html/phinx.php:ro
       - ./php-fpm/custom.ini:/usr/local/etc/php-fpm/conf.d/custom.ini:ro
     depends_on:
