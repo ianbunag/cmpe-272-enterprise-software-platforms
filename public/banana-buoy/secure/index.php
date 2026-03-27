@@ -13,7 +13,6 @@ use BananaBuoy\Lib\ExternalApiClient;
 use BananaBuoy\Views\SecureView;
 use BananaBuoy\Views\AccessDeniedView;
 use BananaBuoy\Views\ErrorView;
-
 try {
     $authModel = new AuthModel();
     $cookieName = 'banana_buoy_auth';

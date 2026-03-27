@@ -6,6 +6,7 @@ A containerized enterprise software platform for CMPE-272 coursework, featuring 
 
 - **Setup:** See [SETUP.md](SETUP.md) for deployment and environment setup instructions
 - **Contributing:** See [CONTRIBUTING.md](CONTRIBUTING.md) for coding guidelines and contribution workflow
+- **Debug:** See [DEBUG.md](DEBUG.md) for local debugging setup
 - **Architecture:** See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for project structure, routing, and coding patterns
 
 ## Overview

@@ -19,6 +19,8 @@ WORKDIR /var/www/html
 # Development stage
 FROM base AS development
 
+RUN apk add --no-cache php83-pecl-xdebug
+
 # Production stage
 FROM base AS production
 
@@ -34,7 +36,7 @@ COPY src ./src
 COPY migrations ./migrations
 COPY phinx.php ./
 COPY VERSION ./
-COPY php-fpm/custom.ini /usr/local/etc/php/conf.d/custom.ini
+COPY php-fpm/prod.ini /usr/local/etc/php/conf.d/prod.ini
 
 # Set ownership
 RUN chown -R www-data:www-data /var/www/html

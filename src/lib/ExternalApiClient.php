@@ -1,5 +1,7 @@
 <?php
 namespace BananaBuoy\Lib;
+use Exception;
+
 class ExternalApiClient
 {
     /**
