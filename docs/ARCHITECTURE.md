@@ -243,6 +243,7 @@ Use semantic HTML for proper document structure and accessibility. Pico.css auto
 
 Variables are stored in `.env` file. Common variables:
 - `HTTP_PORT` - Port for HTTP server
+- `DB_PORT` - Database port
 - `DB_USER` - Database user
 - `DB_PASSWORD` - Database password
 - `REPO_URL` - GitHub repository URL
