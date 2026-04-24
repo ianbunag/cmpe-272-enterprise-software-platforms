@@ -103,13 +103,15 @@ jobs:
             export IMAGE_REGISTRY=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
             export IMAGE_TAG=${{ github.ref_name }}
             export BUILD_TARGET=production
+            export DB_PORT=${{ secrets.DB_PORT }}
+            # Set app environment variables    
+            export HTTP_PORT=${{ secrets.HTTP_PORT }}
             export DB_USER=${{ secrets.DB_USER }}
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export REPO_URL=https://github.com/${{ github.repository }}
             export IMAGE_HOST=${{ secrets.IMAGE_HOST }}
             export APP_SECRET=${{ secrets.APP_SECRET }}
             export PARTNER_URLS=${{ secrets.PARTNER_URLS }}
-            export HTTP_PORT=${{ secrets.HTTP_PORT }}
 
             # Pull and restart
             bash ./docker-compose pull
