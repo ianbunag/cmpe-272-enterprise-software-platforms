@@ -29,8 +29,8 @@ cd cmpe-272-enterprise-software-platforms
 docker compose up -d
 
 # Install dependencies and run migrations
-docker compose exec php-fpm composer install
-docker compose exec php-fpm vendor/bin/phinx migrate
+docker compose exec cmpe-272-php-fpm composer install
+docker compose exec cmpe-272-php-fpm vendor/bin/phinx migrate
 
 # Access the application
 open http://localhost

@@ -8,8 +8,8 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  DEPLOY_DIRECTORY: /var/lib/app/${{ github.repository }}
-  DEPLOY_TMP_DIRECTORY: /tmp/var/lib/app/${{ github.repository }}
+  DEPLOY_DIRECTORY: /var/lib/app/cmpe-272
+  DEPLOY_TMP_DIRECTORY: /tmp/var/lib/app/cmpe-272
 
 jobs:
   build-and-push:
@@ -112,12 +112,12 @@ jobs:
             export HTTP_PORT=${{ secrets.HTTP_PORT }}
 
             # Pull and restart
-            bash ${{env.DEPLOY_DIRECTORY}}/docker-compose pull
-            bash ${{env.DEPLOY_DIRECTORY}}/docker-compose up -d
-            bash ${{env.DEPLOY_DIRECTORY}}/docker-compose restart nginx
+            bash ./docker-compose pull
+            bash ./docker-compose up -d
+            bash ./docker-compose restart nginx
 
             # Run migrations
-            bash ${{env.DEPLOY_DIRECTORY}}/docker-compose exec -T php-fpm vendor/bin/phinx migrate
+            bash ./docker-compose exec -T cmpe-272-php-fpm vendor/bin/phinx migrate
 
             # Cleanup
             docker image prune -f

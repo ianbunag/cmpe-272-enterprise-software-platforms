@@ -107,21 +107,21 @@ Upload the contents of each directory from your local `assets/cdn/` folder.
 SSH into your VM via the GCP Console or your local terminal to prepare the environment.
 
 ### 1. Create the App Directory and Docker Compose Wrapper
-The application files reside in `/var/lib/app`. Since COS may prevent binary execution on writable partitions, we use a wrapper script that runs Docker Compose inside a container.
+The application files reside in `/var/lib/app/cmpe-272`. Since COS may prevent binary execution on writable partitions, we use a wrapper script that runs Docker Compose inside a container.
 
 ```bash
-sudo mkdir -p /var/lib/app
-sudo chown $USER:docker /var/lib/app
-sudo chmod 2775 /var/lib/app
+sudo mkdir -p /var/lib/app/cmpe-272
+sudo chown $USER:docker /var/lib/app/cmpe-272
+sudo chmod 2775 /var/lib/app/cmpe-272
 
 # Create the wrapper script
-cat > /var/lib/app/docker-compose << 'EOF'
+cat > /var/lib/app/cmpe-272/docker-compose << 'EOF'
 #!/bin/bash
 # Wrapper to run docker-compose in a container
 # Inherits all shell environment variables and the .env file
 
 # 1. Load the .env file if it exists
-ENV_FILE="/var/lib/app/.env"
+ENV_FILE="/var/lib/app/cmpe-272/.env"
 ENV_OPTS=""
 if [ -f "$ENV_FILE" ]; then
   ENV_OPTS="--env-file $ENV_FILE"
@@ -133,7 +133,7 @@ INHERIT_VARS=$(env | cut -d= -f1 | sed 's/^/-e /' | tr '\n' ' ')
 
 docker run --rm \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -v /var/lib/app:/var/lib/app \
+  -v /var/lib/app/cmpe-272:/var/lib/app/cmpe-272 \
   -v "$PWD":"$PWD" \
   -w "$PWD" \
   $ENV_OPTS \
@@ -142,19 +142,19 @@ docker run --rm \
 EOF
 
 # Make it executable
-chmod +x /var/lib/app/docker-compose
+chmod +x /var/lib/app/cmpe-272/docker-compose
 ```
 
 ### 2. Create the Production Environment File
 ```bash
-cat > /var/lib/app/.env << EOF
+cat > /var/lib/app/cmpe-272/.env << EOF
 DB_USER=your_db_user
 DB_PASSWORD=your_secure_password
 REPO_URL=https://github.com/your-username/your-repo
 IMAGE_HOST=https://storage.googleapis.com/bucket-name
 APP_SECRET=your_random_secret_key_min_32_chars
 EOF
-chmod 660 /var/lib/app/.env
+chmod 660 /var/lib/app/cmpe-272/.env
 ```
 
 ### 3. Configure Deployment User
@@ -210,5 +210,5 @@ Once the GitHub Action completes, your site will be live at your domain.
 ### Recreating the application
 
 1. SSH into the VM.
-2. Run `bash /var/lib/app/docker-compose down -v`
+2. Run `bash /var/lib/app/cmpe-272/docker-compose down -v`
 3. Redeploy by pushing a new tag.

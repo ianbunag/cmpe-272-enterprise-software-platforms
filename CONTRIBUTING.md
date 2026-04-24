@@ -157,7 +157,7 @@ Routing is handled by Nginx with a fallback mechanism. See [docs/ARCHITECTURE.md
 - Use Phinx for all database schema changes
 - Create migration files in the `migrations/` directory
 - Migrations run automatically on deployment
-- To run manually: `bash /var/lib/app/docker-compose exec php-fpm vendor/bin/phinx migrate`
+- To run manually: `bash /var/lib/app/cmpe-272/docker-compose exec php-fpm vendor/bin/phinx migrate`
 
 ## Git Workflow
 
