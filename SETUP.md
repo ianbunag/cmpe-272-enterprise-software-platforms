@@ -172,12 +172,13 @@ In your repository, go to **Settings > Secrets and variables > Actions** and add
 | `VM_HOST` | The Static IP from Phase 1                                                                              |
 | `VM_USERNAME` | The username from Phase 2, Step 2                                                                       |
 | `SSH_PRIVATE_KEY` | The private key from Phase 3, Step 1                                                                    |
-| `DB_USER` | The same `DB_USER` used in Phase 2, Step 2                                                              |
-| `DB_PASSWORD` | The same `DB_PASSWORD` used in Phase 2, Step 2                                                          |
+| `HTTP_PORT` | HTTP port to serve application from                                                                     |
+| `DB_PORT` | Database port                                                                                           |
+| `DB_USER` | Database username                                                                                       |
+| `DB_PASSWORD` | Database password                                                                                       |
 | `IMAGE_HOST` | The CDN URL from Phase 1, Step 6 (e.g., `https://cdn.yourdomain.com`)                                   |
 | `APP_SECRET` | A random string of at least 32 characters for token signing (use `openssl rand -base64 32` to generate) |
-| `PARTNER_URLS` | Comma delimited partner URLs                                                                            |
-| `HTTP_PORT` | HTTP port to serve application from                                                                     |
+| `PARTNER_URLS` | Comma-separated list of partner URLs                                                                    |
 
 ---
 

@@ -5,7 +5,7 @@ services:
     image: mariadb
     restart: unless-stopped
     ports:
-      - "3306:3306"
+      - "${DB_PORT}:3306"
     environment:
       - MYSQL_DATABASE=cmpe-272
       - MYSQL_USER=${DB_USER}

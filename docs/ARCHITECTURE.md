@@ -242,11 +242,14 @@ Use semantic HTML for proper document structure and accessibility. Pico.css auto
 ## Environment Variables
 
 Variables are stored in `.env` file. Common variables:
+- `HTTP_PORT` - Port for HTTP server
+- `DB_PORT` - Database port
 - `DB_USER` - Database user
 - `DB_PASSWORD` - Database password
 - `REPO_URL` - GitHub repository URL
 - `IMAGE_HOST` - Image CDN
 - `APP_SECRET` - Secret key for signing authentication tokens (must be set for secure section)
+- `PARTNER_URLS` - Comma-separated list of partner URLs
 
 Load with `getenv('VARIABLE_NAME')`.
 
