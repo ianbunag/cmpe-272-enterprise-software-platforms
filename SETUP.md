@@ -46,7 +46,7 @@ The application requires the following components:
     - Click **Save**.
 
 ### 6. Cloudflare CDN
-This section sets up a an R2 object storage bucket to host your application assets. These assets will be served via the `IMAGE_HOST` URL.
+This section sets up an R2 object storage bucket to host your application assets. These assets will be served via the `IMAGE_HOST` URL.
 
 #### 6.1 Create a Cloud Storage Bucket
 In the Cloudflare dashboard:
@@ -145,19 +145,7 @@ EOF
 chmod +x /var/lib/app/cmpe-272/docker-compose
 ```
 
-### 2. Create the Production Environment File
-```bash
-cat > /var/lib/app/cmpe-272/.env << EOF
-DB_USER=your_db_user
-DB_PASSWORD=your_secure_password
-REPO_URL=https://github.com/your-username/your-repo
-IMAGE_HOST=https://storage.googleapis.com/bucket-name
-APP_SECRET=your_random_secret_key_min_32_chars
-EOF
-chmod 660 /var/lib/app/cmpe-272/.env
-```
-
-### 3. Configure Deployment User
+### 2. Configure Deployment User
 Ensure the user used for SSH deployment is in the `docker` group. Replace `VM_USERNAME` with your intended deployment username.
 ```bash
 sudo usermod -aG docker VM_USERNAME
