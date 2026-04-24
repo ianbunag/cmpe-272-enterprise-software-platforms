@@ -105,7 +105,7 @@ jobs:
             export BUILD_TARGET=production
             export HTTP_PORT=${{ secrets.HTTP_PORT }}
             export DB_PORT=${{ secrets.DB_PORT }}
-            # Set app variables    
+            # Set app variables
             export DB_USER=${{ secrets.DB_USER }}
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export REPO_URL=https://github.com/${{ github.repository }}

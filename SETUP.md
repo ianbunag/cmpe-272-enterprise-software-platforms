@@ -178,7 +178,7 @@ In your repository, go to **Settings > Secrets and variables > Actions** and add
 | `DB_PASSWORD` | Database password                                                                                       |
 | `IMAGE_HOST` | The CDN URL from Phase 1, Step 6 (e.g., `https://cdn.yourdomain.com`)                                   |
 | `APP_SECRET` | A random string of at least 32 characters for token signing (use `openssl rand -base64 32` to generate) |
-| `PARTNER_URLS` | Comma-separated list of partner URLs                                                                          |
+| `PARTNER_URLS` | Comma-separated list of partner URLs                                                                    |
 
 ---
 
