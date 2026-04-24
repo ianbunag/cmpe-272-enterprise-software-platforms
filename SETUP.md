@@ -170,7 +170,7 @@ In your repository, go to **Settings > Secrets and variables > Actions** and add
 | Secret | Value                                                                                                   |
 |--------|---------------------------------------------------------------------------------------------------------|
 | `VM_HOST` | The Static IP from Phase 1                                                                              |
-| `VM_USERNAME` | The username from Phase 2, Step 3                                                                       |
+| `VM_USERNAME` | The username from Phase 2, Step 2                                                                       |
 | `SSH_PRIVATE_KEY` | The private key from Phase 3, Step 1                                                                    |
 | `DB_USER` | The same `DB_USER` used in Phase 2, Step 2                                                              |
 | `DB_PASSWORD` | The same `DB_PASSWORD` used in Phase 2, Step 2                                                          |
