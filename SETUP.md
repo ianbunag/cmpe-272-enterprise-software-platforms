@@ -21,9 +21,15 @@ The application requires the following components:
 - Click **Promote to static** to reserve it. Note this IP; it will be your `VM_HOST`.
 
 ### 3. Firewall Rules
+- Go to **VPC Network > Firewall**.
+  - Edit `default-allow-http`
+  - Add/Set to a TCP port other than 80 (e.g., `8081`) to the allowed ports.
+  - Click **Save**.
 - Edit your VM instance.
-- Check **Allow HTTP traffic**.
-- This assigns the `http-server` network tag.
+    - Check **Allow HTTP traffic**.
+    - This assigns the `http-server` network tag.
+
+> Setting the HTTP port to something other than 80 allows sharing the server with another application.
 
 ### 4. GCP Budget Alert
 - In the GCP Billing dashboard, create a budget alert for **$1.00** to monitor costs.
@@ -43,6 +49,18 @@ The application requires the following components:
         - Value: `yourdomain.com`
     - **Then the settings are…**:
         - Search for **SSL** and set it to **Flexible**.
+    - Click **Save**.
+- Create an **Origin Rule** to forward requests to the correct port:
+    - Click **Create rule**.
+    - **Rule name**: "Custom port for yourdomain.com" (or your chosen name).
+    - **If incoming requests match…**:
+        - Select `Custom filter expression`
+    - **When incoming requests match…**
+        - Field: `Hostname`
+        - Operator: `equals`
+        - Value: `yourdomain.com`
+    - **Then the settings are…**:
+        - Search for **Destination Port** and set it to HTTP port from Phase 1, Step 3 (e.g., `8081`).
     - Click **Save**.
 
 ### 6. Cloudflare CDN
@@ -167,18 +185,18 @@ ssh-keygen -t ed25519 -f ./DEPLOY_KEY -C "VM_USERNAME"
 ### 2. Add GitHub Secrets
 In your repository, go to **Settings > Secrets and variables > Actions** and add:
 
-| Secret | Value                                                                                                   |
-|--------|---------------------------------------------------------------------------------------------------------|
-| `VM_HOST` | The Static IP from Phase 1                                                                              |
-| `VM_USERNAME` | The username from Phase 2, Step 2                                                                       |
-| `SSH_PRIVATE_KEY` | The private key from Phase 3, Step 1                                                                    |
-| `HTTP_PORT` | HTTP port to serve application from                                                                     |
-| `DB_PORT` | Database port                                                                                           |
-| `DB_USER` | Database username                                                                                       |
-| `DB_PASSWORD` | Database password                                                                                       |
-| `IMAGE_HOST` | The CDN URL from Phase 1, Step 6 (e.g., `https://cdn.yourdomain.com`)                                   |
+| Secret | Value                                                                                                 |
+|--------|-------------------------------------------------------------------------------------------------------|
+| `VM_HOST` | The Static IP from Phase 1                                                                            |
+| `VM_USERNAME` | The username from Phase 2, Step 2                                                                     |
+| `SSH_PRIVATE_KEY` | The private key from Phase 3, Step 1                                                                  |
+| `HTTP_PORT` | HTTP port from Phase 1, Step 3 (e.g., `8081`)                                 |
+| `DB_PORT` | Database port                                                                                         |
+| `DB_USER` | Database username                                                                                     |
+| `DB_PASSWORD` | Database password                                                                                     |
+| `IMAGE_HOST` | The CDN URL from Phase 1, Step 6 (e.g., `https://cdn.yourdomain.com`)                                 |
 | `APP_SECRET` | A random string of at least 32 characters for token signing (use `openssl rand -base64 32` to generate) |
-| `PARTNER_URLS` | Comma-separated list of partner URLs                                                                    |
+| `PARTNER_URLS` | Comma-separated list of partner URLs                                                                  |
 
 ---
 
@@ -204,3 +222,7 @@ Once the GitHub Action completes, your site will be live at your domain.
 2. Run `cd /var/lib/app/cmpe-272`
 3. Run `bash ./docker-compose down -v`
 4. Redeploy by pushing a new tag.
+
+### Connecting to the database
+
+Use a database client that supports SSH tunneling (e.g., DBeaver, PhpStorm) to connect to the database on the VM. Configure the SSH connection using `VM_HOST`, `VM_USERNAME`, and the private key. Set the database host to `localhost` and the port to `DB_PORT`.
