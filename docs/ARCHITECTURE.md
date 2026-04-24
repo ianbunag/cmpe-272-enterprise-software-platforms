@@ -297,12 +297,12 @@ The secure section (`/banana-buoy/secure/`) uses stateless HMAC-SHA256 signed co
 
 ## Development vs Production
 
-| Aspect | Development | Production |
-|--------|-------------|-----------|
-| **File** | `docker-compose.yml` | `docker-compose-prod.yml` (copied to server) |
-| **Images** | Built locally | Pulled from GHCR |
-| **Volumes** | Mounted for live reload | None (immutable containers) |
-| **Deploy Command** | `docker compose up -d` | `bash /var/lib/app/docker-compose up -d` |
+| Aspect | Development | Production                                        |
+|--------|-------------|---------------------------------------------------|
+| **File** | `docker-compose.yml` | `docker-compose-prod.yml` (copied to server)      |
+| **Images** | Built locally | Pulled from GHCR                                  |
+| **Volumes** | Mounted for live reload | None (immutable containers)                       |
+| **Deploy Command** | `docker compose up -d` | `bash /var/lib/app/cmpe-272/docker-compose up -d` |
 
 ## Adding New Code Patterns
 

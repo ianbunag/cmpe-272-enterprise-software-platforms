@@ -8,6 +8,8 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  DEPLOY_DIRECTORY: /var/lib/app/cmpe-272
+  DEPLOY_TMP_DIRECTORY: /tmp/var/lib/app/cmpe-272
 
 jobs:
   build-and-push:
@@ -76,7 +78,7 @@ jobs:
           username: ${{ secrets.VM_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "docker-compose-prod.yml"
-          target: "/tmp/app"
+          target: ${{env.DEPLOY_TMP_DIRECTORY}}
 
       - name: Deploy to GCP VM
         uses: appleboy/ssh-action@v1.0.3
@@ -86,12 +88,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             # Create app directory if missing
-            mkdir -p /var/lib/app
+            mkdir -p ${{env.DEPLOY_DIRECTORY}}
             
             # Move uploaded file to central directory and rename to docker-compose.yml
-            mv /tmp/app/docker-compose-prod.yml /var/lib/app/docker-compose.yml
+            mv ${{env.DEPLOY_TMP_DIRECTORY}}/docker-compose-prod.yml ${{env.DEPLOY_DIRECTORY}}/docker-compose.yml
 
-            cd /var/lib/app
+            cd ${{env.DEPLOY_DIRECTORY}}
 
             # Login to GHCR (using the installed docker-compose path if needed, 
             # though standard docker login works without it)
@@ -107,14 +109,15 @@ jobs:
             export IMAGE_HOST=${{ secrets.IMAGE_HOST }}
             export APP_SECRET=${{ secrets.APP_SECRET }}
             export PARTNER_URLS=${{ secrets.PARTNER_URLS }}
+            export HTTP_PORT=${{ secrets.HTTP_PORT }}
 
             # Pull and restart
-            bash /var/lib/app/docker-compose pull
-            bash /var/lib/app/docker-compose up -d
-            bash /var/lib/app/docker-compose restart nginx
+            bash ./docker-compose pull
+            bash ./docker-compose up -d
+            bash ./docker-compose restart nginx
 
             # Run migrations
-            bash /var/lib/app/docker-compose exec -T php-fpm vendor/bin/phinx migrate
+            bash ./docker-compose exec -T php-fpm vendor/bin/phinx migrate
 
             # Cleanup
             docker image prune -f
