@@ -167,15 +167,17 @@ ssh-keygen -t ed25519 -f ./DEPLOY_KEY -C "VM_USERNAME"
 ### 2. Add GitHub Secrets
 In your repository, go to **Settings > Secrets and variables > Actions** and add:
 
-| Secret | Value                                                                 |
-|--------|-----------------------------------------------------------------------|
-| `VM_HOST` | The Static IP from Phase 1                                            |
-| `VM_USERNAME` | The username from Phase 2, Step 3                                     |
-| `SSH_PRIVATE_KEY` | The private key from Phase 3, Step 1                                  |
-| `DB_USER` | The same `DB_USER` used in Phase 2, Step 2                            |
-| `DB_PASSWORD` | The same `DB_PASSWORD` used in Phase 2, Step 2                        |
-| `IMAGE_HOST` | The CDN URL from Phase 1, Step 6 (e.g., `https://cdn.yourdomain.com`) |
+| Secret | Value                                                                                                   |
+|--------|---------------------------------------------------------------------------------------------------------|
+| `VM_HOST` | The Static IP from Phase 1                                                                              |
+| `VM_USERNAME` | The username from Phase 2, Step 3                                                                       |
+| `SSH_PRIVATE_KEY` | The private key from Phase 3, Step 1                                                                    |
+| `DB_USER` | The same `DB_USER` used in Phase 2, Step 2                                                              |
+| `DB_PASSWORD` | The same `DB_PASSWORD` used in Phase 2, Step 2                                                          |
+| `IMAGE_HOST` | The CDN URL from Phase 1, Step 6 (e.g., `https://cdn.yourdomain.com`)                                   |
 | `APP_SECRET` | A random string of at least 32 characters for token signing (use `openssl rand -base64 32` to generate) |
+| `PARTNER_URLS` | Comma delimited partner URLs                                                                            |
+| `HTTP_PORT` | HTTP port to serve application from                                                                     |
 
 ---
 
@@ -198,5 +200,6 @@ Once the GitHub Action completes, your site will be live at your domain.
 ### Recreating the application
 
 1. SSH into the VM.
-2. Run `bash /var/lib/app/cmpe-272/docker-compose down -v`
-3. Redeploy by pushing a new tag.
+2. Run `cd /var/lib/app/cmpe-272`
+3. Run `bash ./docker-compose down -v`
+4. Redeploy by pushing a new tag.

@@ -117,7 +117,7 @@ jobs:
             bash ./docker-compose restart nginx
 
             # Run migrations
-            bash ./docker-compose exec -T cmpe-272-php-fpm vendor/bin/phinx migrate
+            bash ./docker-compose exec -T php-fpm vendor/bin/phinx migrate
 
             # Cleanup
             docker image prune -f
