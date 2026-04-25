@@ -280,9 +280,6 @@ The secure section (`/banana-buoy/secure/`) uses stateless HMAC-SHA256 signed co
 - `SecureView.php` - User list (admin only)
 - `AccessDeniedView.php` - Access denied message for non-admin authenticated users
 
-**Database:**
-- `users` table: `id`, `username` (unique), `display_name`, `email`, `password_hash` (bcrypt), `role` (enum: `user`/`admin`), `created_at`
-
 **Cookie Settings:**
 - Name: `banana_buoy_auth`
 - Path: `/banana-buoy/secure/`

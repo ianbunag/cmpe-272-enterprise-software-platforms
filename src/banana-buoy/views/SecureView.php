@@ -17,7 +17,8 @@ class SecureView extends BaseView
      *                    - users: array<int, array{
      *                        id: int,
      *                        username: string,
-     *                        display_name: string,
+     *                        first_name: string,
+     *                        last_name: string,
      *                        email: string,
      *                        role: string,
      *                        created_at: string
@@ -25,7 +26,8 @@ class SecureView extends BaseView
      *                    - currentUser: array{
      *                        id: int,
      *                        username: string,
-     *                        display_name: string,
+     *                        first_name: string,
+     *                        last_name: string,
      *                        email: string,
      *                        role: string,
      *                        created_at: string
@@ -42,20 +44,28 @@ class SecureView extends BaseView
         ?>
         <article>
             <section>
+                <br>
                 <hgroup>
                     <h1>🔒 Secure Section - User List</h1>
-                    <h2>Current Website Users</h2>
                 </hgroup>
 
                 <?php if ($currentUser): ?>
                     <p>
-                        <strong>Logged in as:</strong> <?= htmlspecialchars($currentUser['display_name']) ?>
+                        <strong>Logged in as:</strong> <?= htmlspecialchars($currentUser['first_name'] . ' ' . $currentUser['last_name']) ?>
                     </p>
+                    <a href="/banana-buoy/secure/logout" role="button" class="secondary">
+                        🚪 Logout
+                    </a>
                 <?php endif; ?>
 
-                <p>
-                    Below is a complete list of all registered users on the Banana Buoy website.
-                </p>
+                <br>
+                <br>
+                <hgroup>
+                    <h2>Current Website Users</h2>
+                    <p>
+                        Below is a complete list of all registered users on the Banana Buoy website.
+                    </p>
+                </hgroup>
             </section>
 
             <section>
@@ -79,7 +89,7 @@ class SecureView extends BaseView
                                     <tr>
                                         <td><?= htmlspecialchars((string)$user['id']) ?></td>
                                         <td><?= htmlspecialchars($user['username']) ?></td>
-                                        <td><?= htmlspecialchars($user['display_name']) ?></td>
+                                        <td><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></td>
                                         <td><?= htmlspecialchars($user['email']) ?></td>
                                         <td>
                                             <strong><?= htmlspecialchars(ucfirst($user['role'])) ?></strong>
@@ -91,14 +101,6 @@ class SecureView extends BaseView
                         </table>
                     </div>
                 <?php endif; ?>
-            </section>
-
-            <section>
-                <div class="banana-buoy-text-align-center">
-                    <a href="/banana-buoy/secure/logout" role="button" class="secondary">
-                        🚪 Logout
-                    </a>
-                </div>
             </section>
         </article>
 

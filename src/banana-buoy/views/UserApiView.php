@@ -13,7 +13,12 @@ class UserApiView extends BaseApiView
      */
     public function render($users): void
     {
-        $usernames = array_column($users, 'username');
+        $usernames = [];
+
+        foreach ($users as $user) {
+            $usernames[] = $user['first_name'] . ' ' . $user['last_name'];
+        }
+
         parent::render($usernames);
     }
 }

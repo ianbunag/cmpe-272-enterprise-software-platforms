@@ -9,7 +9,7 @@ final class SeedUsers extends AbstractMigration
     /**
      * Seed the users table with test data including admin user
      */
-    public function up(): void
+    public function change(): void
     {
         // Hash admin password
         $adminPassword = password_hash('admin', PASSWORD_BCRYPT);
@@ -37,13 +37,4 @@ final class SeedUsers extends AbstractMigration
             ('mike_johnson', 'Mike Johnson', 'mike.johnson@example.com', '$mikePassword', 'user')
         ");
     }
-
-    /**
-     * Rollback seed data
-     */
-    public function down(): void
-    {
-        $this->execute("DELETE FROM users WHERE username IN ('admin', 'mary_smith', 'john_wang', 'alex_bington', 'jane_doe', 'mike_johnson')");
-    }
 }
-

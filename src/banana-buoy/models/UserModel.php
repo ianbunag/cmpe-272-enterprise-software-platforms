@@ -21,9 +21,13 @@ class UserModel
      * @return array<int, array{
      *     id: int,
      *     username: string,
-     *     display_name: string,
+     *     first_name: string,
+     *     last_name: string,
      *     email: string,
      *     role: string,
+     *     home_address: string,
+     *     home_phone: string,
+     *     cell_phone: string,
      *     created_at: string
      * }> Array of all user records, empty array on error
      */
@@ -31,7 +35,7 @@ class UserModel
     {
         try {
             $stmt = $this->db->prepare("
-                SELECT id, username, display_name, email, role, created_at 
+                SELECT id, username, first_name, last_name, email, role, home_address, home_phone, cell_phone, created_at 
                 FROM users 
                 ORDER BY created_at ASC
             ");
@@ -45,19 +49,23 @@ class UserModel
 
     /**
      * @return array{
-     *     id: int,
-     *     username: string,
-     *     display_name: string,
-     *     email: string,
-     *     role: string,
-     *     created_at: string
+     * id: int,
+     * username: string,
+     * first_name: string,
+     * last_name: string,
+     * email: string,
+     * role: string,
+     * home_address: string,
+     * home_phone: string,
+     * cell_phone: string,
+     * created_at: string
      * }|null User record if found, null otherwise
      */
     public function getById(int $id): ?array
     {
         try {
             $stmt = $this->db->prepare("
-                SELECT id, username, display_name, email, role, created_at 
+                SELECT id, username, first_name, last_name, email, role, home_address, home_phone, cell_phone, created_at 
                 FROM users 
                 WHERE id = ?
             ");
@@ -69,4 +77,3 @@ class UserModel
         }
     }
 }
-
