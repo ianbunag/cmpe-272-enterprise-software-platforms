@@ -42,6 +42,7 @@ class SecureView extends BaseView
      *                        name: string,
      *                        partner_url: string
      *                      }>
+     *                    - searchQuery: string
      *                    - showSuccess: bool
      */
     protected function renderContent(array $data = []): void

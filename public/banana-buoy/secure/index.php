@@ -43,7 +43,7 @@ try {
 
     // Check for search query
     $searchQuery = $_GET['q'] ?? '';
-    if (!empty($searchQuery)) {
+    if (trim($searchQuery) !== '') {
         $users = $userModel->searchUsers($searchQuery);
     } else {
         $users = $userModel->getAll();
