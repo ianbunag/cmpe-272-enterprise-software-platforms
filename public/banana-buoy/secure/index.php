@@ -40,7 +40,15 @@ try {
 
     // User is authenticated admin, show user list
     $userModel = new UserModel();
-    $users = $userModel->getAll();
+
+    // Check for search query
+    $searchQuery = $_GET['q'] ?? '';
+    if (!empty($searchQuery)) {
+        $users = $userModel->searchUsers($searchQuery);
+    } else {
+        $users = $userModel->getAll();
+    }
+
     $currentUser = $userModel->getById($tokenData['user_id']);
 
     // Fetch external users from configured partner URLs
@@ -57,7 +65,8 @@ try {
     $view->render([
         'users' => $users, 
         'currentUser' => $currentUser,
-        'external_users' => $externalUsers
+        'external_users' => $externalUsers,
+        'searchQuery' => $searchQuery
     ]);
 } catch (Exception $e) {
     error_log("Error loading secure page: " . $e->getMessage());

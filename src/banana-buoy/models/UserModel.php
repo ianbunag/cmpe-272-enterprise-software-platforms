@@ -76,4 +76,40 @@ class UserModel
             return null;
         }
     }
+
+    /**
+     * @return array<int, array{
+     *     id: int,
+     *     username: string,
+     *     first_name: string,
+     *     last_name: string,
+     *     email: string,
+     *     role: string,
+     *     home_address: string,
+     *     home_phone: string,
+     *     cell_phone: string,
+     *     created_at: string
+     * }> Array of filtered user records, empty array on error
+     */
+    public function searchUsers(string $query): array
+    {
+        try {
+            $searchTerm = '%' . $query . '%';
+            $stmt = $this->db->prepare("
+                SELECT id, username, first_name, last_name, email, role, home_address, home_phone, cell_phone, created_at 
+                FROM users 
+                WHERE LOWER(first_name) LIKE LOWER(?)
+                   OR LOWER(last_name) LIKE LOWER(?)
+                   OR LOWER(email) LIKE LOWER(?)
+                   OR LOWER(home_phone) LIKE LOWER(?)
+                   OR LOWER(cell_phone) LIKE LOWER(?)
+                ORDER BY created_at ASC
+            ");
+            $stmt->execute([$searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm]);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            error_log("Error searching users: " . $e->getMessage());
+            return [];
+        }
+    }
 }

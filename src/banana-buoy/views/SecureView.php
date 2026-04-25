@@ -21,6 +21,9 @@ class SecureView extends BaseView
      *                        last_name: string,
      *                        email: string,
      *                        role: string,
+     *                        home_address: string,
+     *                        home_phone: string,
+     *                        cell_phone: string,
      *                        created_at: string
      *                      }>
      *                    - currentUser: array{
@@ -30,6 +33,9 @@ class SecureView extends BaseView
      *                        last_name: string,
      *                        email: string,
      *                        role: string,
+     *                        home_address: string,
+     *                        home_phone: string,
+     *                        cell_phone: string,
      *                        created_at: string
      *                      }|null
      *                    - external_users: array<int, array{
@@ -41,6 +47,7 @@ class SecureView extends BaseView
     {
         $users = $data['users'] ?? [];
         $currentUser = $data['currentUser'] ?? null;
+        $searchQuery = $data['searchQuery'] ?? '';
         ?>
         <article>
             <section>
@@ -69,19 +76,41 @@ class SecureView extends BaseView
             </section>
 
             <section>
+                <form method="get" class="grid" style="grid-template-columns: 2fr 1fr 1fr;">
+                    <label for="search-input" style="display: none;">Search Users</label>
+                    <input
+                        id="search-input"
+                        type="text"
+                        name="q"
+                        placeholder="Search by name, email, or phone..."
+                        value="<?= htmlspecialchars($searchQuery) ?>"
+                    />
+                    <button type="submit">🔍 Search</button>
+                    <button type="reset" onclick="window.location.href='/banana-buoy/secure/';">Clear</button>
+                </form>
+                <?php if (!empty($searchQuery)): ?>
+                    <p><em>Search results for: <strong><?= htmlspecialchars($searchQuery) ?></strong></em></p>
+                <?php endif; ?>
+            </section>
+
+            <section>
                 <?php if (empty($users)): ?>
-                    <p><em>No users available.</em></p>
+                    <p><em><?= !empty($searchQuery) ? 'No users found matching your search.' : 'No users available.' ?></em></p>
                 <?php else: ?>
                     <div style="overflow-x: auto;">
                         <table>
                             <thead>
                                 <tr>
                                     <th style="min-width: 50px;">ID</th>
-                                    <th style="min-width: 120px;">Username</th>
-                                    <th style="min-width: 140px;">Display Name</th>
-                                    <th style="min-width: 160px;">Email</th>
-                                    <th style="min-width: 80px;">Role</th>
-                                    <th style="min-width: 150px;">Registered Date</th>
+                                    <th style="min-width: 150px;">Username</th>
+                                    <th style="min-width: 150px;">First Name</th>
+                                    <th style="min-width: 150px;">Last Name</th>
+                                    <th style="min-width: 150px;">Email</th>
+                                    <th style="min-width: 200px;">Home Address</th>
+                                    <th style="min-width: 200px;">Home Phone</th>
+                                    <th style="min-width: 200px;">Cell Phone</th>
+                                    <th style="min-width: 100px;">Role</th>
+                                    <th style="min-width: 200px;">Registered Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,8 +118,12 @@ class SecureView extends BaseView
                                     <tr>
                                         <td><?= htmlspecialchars((string)$user['id']) ?></td>
                                         <td><?= htmlspecialchars($user['username']) ?></td>
-                                        <td><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></td>
+                                        <td><?= htmlspecialchars($user['first_name']) ?></td>
+                                        <td><?= htmlspecialchars($user['last_name']) ?></td>
                                         <td><?= htmlspecialchars($user['email']) ?></td>
+                                        <td><?= htmlspecialchars($user['home_address']) ?></td>
+                                        <td><?= htmlspecialchars($user['home_phone']) ?></td>
+                                        <td><?= htmlspecialchars($user['cell_phone']) ?></td>
                                         <td>
                                             <strong><?= htmlspecialchars(ucfirst($user['role'])) ?></strong>
                                         </td>
