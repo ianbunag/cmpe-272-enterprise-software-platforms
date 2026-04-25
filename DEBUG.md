@@ -7,7 +7,7 @@
 3. Configure the server:
    - **Name**: Any name
    - **Host**: `localhost`
-   - **Port**: `80`
+   - **Port**: The HTTP_PORT you configured locally (e.g., `8081`)
    - **Debugger**: Select `Xdebug`.
    - **Use path mappings**: Check this box and map the project directory to the server's document root (`/var/www/html`).
 4. Click **OK** to save the server configuration.

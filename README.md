@@ -33,7 +33,7 @@ docker compose exec php-fpm composer install
 docker compose exec php-fpm vendor/bin/phinx migrate
 
 # Access the application
-open http://localhost
+open http://localhost:8081
 ```
 
 For full setup details, see [SETUP.md](SETUP.md).
