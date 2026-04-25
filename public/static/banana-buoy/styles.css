@@ -62,6 +62,14 @@ img.banana-buoy-image-hero-square {
     margin: 1rem 0;
 }
 
+.banana-buoy-alert-error {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #ff0000;
+    border-left: 4px solid #ff0000;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
 /* ========== Tags & Badges ========== */
 
 .banana-buoy-tag {

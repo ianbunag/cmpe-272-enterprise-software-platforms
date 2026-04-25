@@ -66,7 +66,8 @@ try {
         'users' => $users, 
         'currentUser' => $currentUser,
         'external_users' => $externalUsers,
-        'searchQuery' => $searchQuery
+        'searchQuery' => $searchQuery,
+        'showSuccess' => isset($_GET['success']) && $_GET['success'] === '1',
     ]);
 } catch (Exception $e) {
     error_log("Error loading secure page: " . $e->getMessage());

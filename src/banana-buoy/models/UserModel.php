@@ -112,4 +112,34 @@ class UserModel
             return [];
         }
     }
+
+    public function createUser(string $username, string $email, string $password, string $firstName, string $lastName, string $homeAddress, string $homePhone, string $cellPhone): array
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT id FROM users WHERE username = ?");
+            $stmt->execute([$username]);
+            if ($stmt->fetch()) {
+                return ['success' => false, 'error' => 'Username already exists'];
+            }
+
+            $stmt = $this->db->prepare("SELECT id FROM users WHERE email = ?");
+            $stmt->execute([$email]);
+            if ($stmt->fetch()) {
+                return ['success' => false, 'error' => 'Email already exists'];
+            }
+
+            $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+
+            $stmt = $this->db->prepare("
+                INSERT INTO users (username, email, password_hash, first_name, last_name, home_address, home_phone, cell_phone, role)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+            $stmt->execute([$username, $email, $passwordHash, $firstName, $lastName, $homeAddress, $homePhone, $cellPhone, 'user']);
+
+            return ['success' => true, 'message' => 'User created successfully'];
+        } catch (PDOException $e) {
+            error_log("Error creating user: " . $e->getMessage());
+            return ['success' => false, 'error' => 'Something went wrong. Please try again later.'];
+        }
+    }
 }

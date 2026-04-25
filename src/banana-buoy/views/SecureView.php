@@ -42,13 +42,20 @@ class SecureView extends BaseView
      *                        name: string,
      *                        partner_url: string
      *                      }>
+     *                    - showSuccess: bool
      */
     protected function renderContent(array $data = []): void
     {
         $users = $data['users'] ?? [];
         $currentUser = $data['currentUser'] ?? null;
         $searchQuery = $data['searchQuery'] ?? '';
+        $showSuccess = $data['showSuccess'] ?? false;
         ?>
+        <?php if ($showSuccess): ?>
+        <div class="banana-buoy-alert-info">
+            User created successfully.
+        </div>
+        <?php endif; ?>
         <article>
             <section>
                 <br>
@@ -72,11 +79,15 @@ class SecureView extends BaseView
                     <p>
                         Below is a complete list of all registered users on the Banana Buoy website.
                     </p>
+                    <form>
+                        <br>
+                        <button type="button" onclick="window.location.href='/banana-buoy/secure/create-user';">Create User</button>
+                    </form>
                 </hgroup>
             </section>
 
             <section>
-                <form method="get" class="grid" style="grid-template-columns: 2fr 1fr 1fr;">
+                <form method="get" class="grid" style="grid-template-columns: 2fr 1fr 1fr">
                     <label for="search-input" style="display: none;">Search Users</label>
                     <input
                         id="search-input"
@@ -91,9 +102,6 @@ class SecureView extends BaseView
                 <?php if (!empty($searchQuery)): ?>
                     <p><em>Search results for: <strong><?= htmlspecialchars($searchQuery) ?></strong></em></p>
                 <?php endif; ?>
-            </section>
-
-            <section>
                 <?php if (empty($users)): ?>
                     <p><em><?= !empty($searchQuery) ? 'No users found matching your search.' : 'No users available.' ?></em></p>
                 <?php else: ?>
