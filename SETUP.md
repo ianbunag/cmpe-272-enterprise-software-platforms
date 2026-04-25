@@ -127,12 +127,15 @@ SSH into your VM via the GCP Console or your local terminal to prepare the envir
 ### 1. Create the App Directory and Docker Compose Wrapper
 The application files reside in `/var/lib/app/cmpe-272`. Since COS may prevent binary execution on writable partitions, we use a wrapper script that runs Docker Compose inside a container.
 
+#### Create app directory with appropriate permissions
 ```bash
 sudo mkdir -p /var/lib/app/cmpe-272
 sudo chown $USER:docker /var/lib/app/cmpe-272
 sudo chmod 2775 /var/lib/app/cmpe-272
+```
 
-# Create the wrapper script
+#### Create the wrapper script
+```bash
 cat > /var/lib/app/cmpe-272/docker-compose << 'EOF'
 #!/bin/bash
 # Wrapper to run docker-compose in a container
@@ -158,8 +161,10 @@ docker run --rm \
   $INHERIT_VARS \
   docker/compose:alpine-1.29.2 "$@"
 EOF
+```
 
-# Make it executable
+#### Make the wrapper executable
+```bash
 chmod +x /var/lib/app/cmpe-272/docker-compose
 ```
 
