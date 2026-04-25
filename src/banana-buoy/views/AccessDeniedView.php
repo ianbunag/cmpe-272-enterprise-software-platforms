@@ -25,7 +25,7 @@ class AccessDeniedView extends BaseView
 
                 <?php if ($currentUser): ?>
                     <p>
-                        <strong>Logged in as:</strong> <?= htmlspecialchars($currentUser['display_name']) ?>
+                        <strong>Logged in as:</strong> <?= htmlspecialchars($currentUser['first_name'] . ' ' . $currentUser['last_name']) ?>
                     </p>
                 <?php endif; ?>
 

@@ -7,14 +7,19 @@ require_once __DIR__ . '/BaseApiView.php';
 class UserApiView extends BaseApiView
 {
     /**
-     * Render a list of usernames from user records
+     * Render a list of names from user records
      *
      * @param array<int, array{username: string}> $users Array of user records
      */
     public function render($users): void
     {
-        $usernames = array_column($users, 'username');
-        parent::render($usernames);
+        $names = [];
+
+        foreach ($users as $user) {
+            $names[] = $user['first_name'] . ' ' . $user['last_name'];
+        }
+
+        parent::render($names);
     }
 }
 

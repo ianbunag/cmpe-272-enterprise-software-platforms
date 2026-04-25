@@ -29,7 +29,8 @@ class AuthModel
      * @return array{
      *     id: int,
      *     username: string,
-     *     display_name: string,
+     *     first_name: string,
+     *     last_name: string,
      *     role: string
      * }|null User record if authenticated, null otherwise
      */
@@ -37,7 +38,7 @@ class AuthModel
     {
         try {
             $stmt = $this->db->prepare("
-                SELECT id, username, display_name, role, password_hash 
+                SELECT id, username, first_name, last_name, role, password_hash 
                 FROM users 
                 WHERE username = ?
             ");
@@ -51,7 +52,8 @@ class AuthModel
             return [
                 'id' => (int)$user['id'],
                 'username' => $user['username'],
-                'display_name' => $user['display_name'],
+                'first_name' => $user['first_name'],
+                'last_name' => $user['last_name'],
                 'role' => $user['role']
             ];
         } catch (PDOException $e) {
