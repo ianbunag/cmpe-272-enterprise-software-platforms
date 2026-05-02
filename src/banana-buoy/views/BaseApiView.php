@@ -12,7 +12,7 @@ abstract class BaseApiView
     public function render($data): void
     {
         header('Content-Type: application/json');
-        echo json_encode($data);
+        echo json_encode($data, JSON_PRETTY_PRINT);
     }
 }
 
